@@ -1,0 +1,131 @@
+<svg width="900" height="260" viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1117"></stop>
+      <stop offset="100%" stop-color="#161b22"></stop>
+    </linearGradient>
+    <radialGradient id="glowG" cx="10%" cy="100%" r="60%">
+      <stop offset="0%" stop-color="#50FA7B" stop-opacity="0.14"></stop>
+      <stop offset="100%" stop-color="#50FA7B" stop-opacity="0"></stop>
+    </radialGradient>
+    <radialGradient id="glowP" cx="95%" cy="10%" r="55%">
+      <stop offset="0%" stop-color="#BD93F9" stop-opacity="0.14"></stop>
+      <stop offset="100%" stop-color="#BD93F9" stop-opacity="0"></stop>
+    </radialGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#50FA7B"></stop>
+      <stop offset="50%" stop-color="#8BE9FD"></stop>
+      <stop offset="100%" stop-color="#BD93F9"></stop>
+    </linearGradient>
+  </defs>
+
+  
+  <rect width="900" height="260" rx="12" fill="url(#bg)"></rect>
+  <rect width="900" height="260" rx="12" fill="url(#glowG)"></rect>
+  <rect width="900" height="260" rx="12" fill="url(#glowP)"></rect>
+
+  
+  <g opacity="0.06" stroke="#ffffff" stroke-width="1">
+    <line x1="0" y1="52" x2="900" y2="52"></line>
+    <line x1="0" y1="104" x2="900" y2="104"></line>
+    <line x1="0" y1="156" x2="900" y2="156"></line>
+    <line x1="0" y1="208" x2="900" y2="208"></line>
+  </g>
+
+  
+  <g opacity="0.04" stroke="#ffffff" stroke-width="1">
+    <line x1="200" y1="0" x2="200" y2="260"></line>
+    <line x1="450" y1="0" x2="450" y2="260"></line>
+    <line x1="700" y1="0" x2="700" y2="260"></line>
+  </g>
+
+  
+  <image x="40" y="55" width="140" height="140" preserveAspectRatio="xMidYMid meet"></image>
+
+  
+  <text x="200" y="90" font-family="-apple-system, &#39;Segoe UI&#39;, Roboto, sans-serif" font-size="48" font-weight="700" fill="#ffffff" letter-spacing="-1">Box</text>
+
+  
+  <g transform="translate(200, 40)">
+    <rect x="0" y="0" width="108" height="22" rx="11" fill="rgba(80,250,123,0.08)" stroke="#50FA7B" stroke-opacity="0.35" stroke-width="1"></rect>
+    <circle cx="12" cy="11" r="3" fill="#50FA7B"></circle>
+    <text x="22" y="15" font-family="&#39;SF Mono&#39;, Menlo, Consolas, monospace" font-size="10" font-weight="600" fill="#50FA7B" letter-spacing="0.08em">ON-DEVICE AI</text>
+  </g>
+
+  
+  <text x="200" y="120" font-family="-apple-system, &#39;Segoe UI&#39;, Roboto, sans-serif" font-size="15" font-weight="400" fill="#8b949e">Privacy-focused fork of Google AI Edge Gallery</text>
+
+  
+  <g transform="translate(200, 140)" font-family="-apple-system, &#39;Segoe UI&#39;, Roboto, sans-serif" font-size="11" font-weight="500">
+    
+    <rect x="0" y="0" width="168" height="24" rx="12" fill="#1f2937" stroke="#374151" stroke-width="1"></rect>
+    <text x="84" y="16" text-anchor="middle" fill="#e5e7eb">Hybrid LiteRT + llama.cpp</text>
+
+    
+    <rect x="176" y="0" width="150" height="24" rx="12" fill="rgba(189,147,249,0.08)" stroke="#BD93F9" stroke-opacity="0.35" stroke-width="1"></rect>
+    <text x="251" y="16" text-anchor="middle" fill="#BD93F9">GPU • CPU • NPU</text>
+
+    
+    <rect x="334" y="0" width="110" height="24" rx="12" fill="rgba(80,250,123,0.08)" stroke="#50FA7B" stroke-opacity="0.35" stroke-width="1"></rect>
+    <text x="389" y="16" text-anchor="middle" fill="#50FA7B">GGUF Import</text>
+
+    
+    <rect x="452" y="0" width="106" height="24" rx="12" fill="rgba(255,85,85,0.08)" stroke="#FF5555" stroke-opacity="0.35" stroke-width="1"></rect>
+    <text x="505" y="16" text-anchor="middle" fill="#FF5555">Hard Offline</text>
+
+    
+    <rect x="566" y="0" width="122" height="24" rx="12" fill="rgba(241,250,140,0.08)" stroke="#F1FA8C" stroke-opacity="0.35" stroke-width="1"></rect>
+    <text x="627" y="16" text-anchor="middle" fill="#F1FA8C">SQLCipher AES-256</text>
+  </g>
+
+  
+  <g transform="translate(200, 172)" font-family="-apple-system, &#39;Segoe UI&#39;, Roboto, sans-serif" font-size="11" font-weight="500">
+    
+    <rect x="0" y="0" width="82" height="24" rx="12" fill="#1f2937" stroke="#374151" stroke-width="1"></rect>
+    <text x="41" y="16" text-anchor="middle" fill="#e5e7eb">AI Chat</text>
+
+    
+    <rect x="90" y="0" width="104" height="24" rx="12" fill="rgba(189,147,249,0.08)" stroke="#BD93F9" stroke-opacity="0.35" stroke-width="1"></rect>
+    <text x="142" y="16" text-anchor="middle" fill="#BD93F9">Image Gen</text>
+
+    
+    <rect x="202" y="0" width="108" height="24" rx="12" fill="rgba(139,233,253,0.08)" stroke="#8BE9FD" stroke-opacity="0.35" stroke-width="1"></rect>
+    <text x="256" y="16" text-anchor="middle" fill="#8BE9FD">Voice Input</text>
+
+    
+    <rect x="318" y="0" width="96" height="24" rx="12" fill="rgba(255,184,108,0.08)" stroke="#FFB86C" stroke-opacity="0.35" stroke-width="1"></rect>
+    <text x="366" y="16" text-anchor="middle" fill="#FFB86C">Vision AI</text>
+
+    
+    <rect x="422" y="0" width="124" height="24" rx="12" fill="rgba(255,121,198,0.08)" stroke="#FF79C6" stroke-opacity="0.35" stroke-width="1"></rect>
+    <text x="484" y="16" text-anchor="middle" fill="#FF79C6">Biometric Lock</text>
+
+    
+    <rect x="554" y="0" width="112" height="24" rx="12" fill="#1f2937" stroke="#374151" stroke-width="1"></rect>
+    <text x="610" y="16" text-anchor="middle" fill="#e5e7eb">Agent Skills</text>
+  </g>
+
+  
+  <g transform="translate(200, 215)" font-family="&#39;SF Mono&#39;, Menlo, Consolas, monospace" font-size="10" font-weight="500" fill="#6b7280" letter-spacing="0.06em">
+    <text x="0" y="12">ANDROID 16+</text>
+    <text x="92" y="12" fill="#4b5563">·</text>
+    <text x="104" y="12">APACHE 2.0</text>
+    <text x="194" y="12" fill="#4b5563">·</text>
+    <text x="206" y="12">KOTLIN + COMPOSE</text>
+    <text x="348" y="12" fill="#4b5563">·</text>
+    <text x="360" y="12" fill="#50FA7B">v1.0.12</text>
+  </g>
+
+  
+  <rect x="200" y="200" width="240" height="2" rx="1" fill="url(#accent)"></rect>
+
+  
+  <g stroke="#50FA7B" stroke-width="1.5" stroke-linecap="round" opacity="0.45" fill="none">
+    <path d="M 870 20 L 880 20 L 880 30"></path>
+    <path d="M 870 240 L 880 240 L 880 230"></path>
+  </g>
+  <g stroke="#50FA7B" stroke-width="1.5" stroke-linecap="round" opacity="0.45" fill="none">
+    <path d="M 30 20 L 20 20 L 20 30"></path>
+    <path d="M 30 240 L 20 240 L 20 230"></path>
+  </g>
+</svg>
