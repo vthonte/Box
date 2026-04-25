@@ -212,7 +212,7 @@ The `--recurse-submodules` flag is required to pull llama.cpp, stable-diffusion.
 
 Open `Android/` in Android Studio (Ladybug or newer) and run on a physical device for best performance.
 
-### Loading a GGUF model
+### Loading a GGUF model ( Use LiteRT for speed & performance ) 
 
 1. Copy a `.gguf` file to your device (Downloads, USB, etc.)
 2. Open the app → **Model Manager** in the drawer
