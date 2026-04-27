@@ -83,7 +83,7 @@ NPU/GPU acceleration are either unavailable or significantly impaired on
   </tr>
   <tr>
     <td align="center"><img src="images/Box_Screenshots/ImgGen.png" width="210"/><br/><sub>Diffusion Output</sub></td>
-    <td align="center"><img src="images/Box_Screenshots/IMGGen_Photo_example.png" width="210"/><br/><sub>Photo Generation</sub></td>
+    <td align="center"><img src="images/Box_Screenshots/IMGGen_Photo_example.png" width="210"/><br/><sub>Photo Generation of a Orange brain cell</sub></td>
     <td align="center"><img src="images/Box_Screenshots/Mobile_Actions_Automation.png" width="210"/><br/><sub>Mobile Actions</sub></td>
   </tr>
   <tr>
