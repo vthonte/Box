@@ -94,7 +94,7 @@ class MainActivity : FragmentActivity() {
     AppLockManager.init(this)
     BiometricEncryptionManager.init(this)
 
-    // Box: Apply FLAG_SECURE based on user preference; observe for runtime changes.
+    // Box: Apply FLAG_SECURE based on user preference; observe for runtime changes.No new features.
     lifecycleScope.launch {
       AppLockManager.screenshotsEnabled.collect { enabled ->
         if (enabled) {
