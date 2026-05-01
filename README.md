@@ -20,17 +20,17 @@
 [![GGUF Import](https://img.shields.io/badge/GGUF-Import-50FA7B.svg)]()
 [![Hybrid Engine](https://img.shields.io/badge/Engine-LiteRT%20%2B%20llama.cpp-BD93F9.svg)]()
 [![Fork](https://img.shields.io/badge/Fork-Google%20AI%20Edge-6272A4.svg)](https://github.com/google-ai-edge/gallery)
-[![Version](https://img.shields.io/badge/Version-1.0.3-BD93F9.svg)](https://github.com/jegly/Box/releases)
+[![Version](https://img.shields.io/badge/Version-1.0.4-BD93F9.svg)](https://github.com/jegly/Box/releases)
 ![GitHub all releases](https://img.shields.io/github/downloads/jegly/Box/total)
 
 
 If this project helped you, please ⭐️ star it to help others find it 
 ## 📱 Download
 
-[![Download Box 1.0.3 APK](https://img.shields.io/badge/Download-Latest_APK-brightgreen?style=for-the-badge&logo=android)](https://github.com/jegly/Box/releases/tag/v1.0.3)
+[![Download Box 1.0.4 APK](https://img.shields.io/badge/Download-Latest_APK-brightgreen?style=for-the-badge&logo=android)](https://github.com/jegly/Box/releases/tag/v1.0.4)
 
 
-> **Note:** If you're using a custom ROM (LineageOS, GrapheneOS, CalyxOS), please use the [custom-rom-support-v1.0.3 release](https://github.com/jegly/Box/releases/tag/custom-rom-support-v1.0.3) instead.
+> **Note:** If you're using a custom ROM (LineageOS, GrapheneOS, CalyxOS), please use the [custom-rom-support-v1.0.4 release](https://github.com/jegly/Box/releases/tag/custom-rom-support-v1.0.4) instead.
 
 **Box is a security-hardened fork of [Google AI Edge Gallery](https://github.com/google-ai-edge/gallery) — with on-device image generation, voice mode (speech-to-speech AI chat), voice input, document analysis, vision AI, biometric lock, encrypted chat history, llama.cpp support, and GGUF model import.**
 
