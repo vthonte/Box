@@ -35,10 +35,10 @@ If this project helped you, please ⭐️ star it to help others find it
 ## Installation via Obtainium                                                                                                                                                                                                               
                                                                                                                                                                                                                                               
   Obtainium lets you install and auto-update Box directly from GitHub releases.                                                                                                                                                               
-   
-  [![Get Box (Main) on Obtainium](https://img.shields.io/badge/Obtainium-Box%20Main-blue?style=for-the-badge&logo=github)](https://obtainium.imranr.dev/redirect?r=obtainium://app/https://github.com/jegly/Box)                              
-                  
-  [![Get Box (Custom ROM) on Obtainium](https://img.shields.io/badge/Obtainium-Box%20Custom%20ROM-green?style=for-the-badge&logo=github)](https://obtainium.imranr.dev/redirect?r=obtainium://app/https://github.com/jegly/Box)               
+     [![Box Main — Obtainium](https://img.shields.io/badge/Obtainium-Box%20Main-ff8f00?style=for-the-badge&logo=github&logoColor=ff8f00&labelColor=1a0d00)](https://obtainium.imranr.dev/redirect?r=obtainium://app/https://github.com/jegly/Box)
+  [![Box Custom ROM —                                                                                                                                                                                                                         
+  Obtainium](https://img.shields.io/badge/Obtainium-Box%20Custom%20ROM-ff8f00?style=for-the-badge&logo=github&logoColor=ff8f00&labelColor=1a0d00)](https://obtainium.imranr.dev/redirect?r=obtainium://app/https://github.com/jegly/Box)   
+           
                   
   ### Which version should I install?                                                                                                                                                                                                         
                   
