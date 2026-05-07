@@ -20,9 +20,7 @@
 [![GGUF Import](https://img.shields.io/badge/GGUF-Import-50FA7B.svg)]()
 [![Hybrid Engine](https://img.shields.io/badge/Engine-LiteRT%20%2B%20llama.cpp-BD93F9.svg)]()
 [![Fork](https://img.shields.io/badge/Fork-Google%20AI%20Edge-6272A4.svg)](https://github.com/google-ai-edge/gallery)
-[![Version](https://img.shields.io/badge/Version-1.0.5-BD93F9.svg)](https://github.com/jegly/Box/releases)
-![GitHub all releases](https://img.shields.io/github/downloads/jegly/Box/total?style=flat) 
-
+![GitHub all releases](https://img.shields.io/github/downloads/jegly/Box/total)                                                                
 
 If this project helped you, please ⭐️ star it to help others find it 
 ## 📱 Download
