@@ -325,7 +325,7 @@ Open `Android/` in Android Studio (Ladybug or newer) and run on a physical devic
 - **stable-diffusion.cpp** — GGUF image generation (git submodule)
 - **whisper.cpp** — on-device speech-to-text (git submodule)
 - **Sherpa-ONNX (k2-fsa)** — Piper TTS engine for on-device voice synthesis (custom-rom-support branch)
-- **Firebase Analytics** — anonymous usage stats (disabled in Offline Mode)
+
 
 ---
 
