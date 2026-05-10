@@ -33,9 +33,15 @@ If this project helped you, please ⭐️ star it to help others find it
 ## Installation via Obtainium                                                                                                                                                                                                               
  ### Install via Obtainium
 
-[![Obtainium - Main](https://img.shields.io/badge/Obtainium-Main-brightgreen)](obtainium://app/%7B%22id%22%3A%22com.box.gallery%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2Fjegly%2FBox%22%2C%22additionalSettings%22%3A%22%7B%5C%22apkFilterRegEx%5C%22%3A%5C%22Main%5C%22%2C%5C%22useVersionCodeAsOSVersion%5C%22%3Atrue%7D%22%7D)
+### Install via Obtainium
 
-[![Obtainium - Custom ROM](https://img.shields.io/badge/Obtainium-Custom%20ROM-brightgreen)](obtainium://app/%7B%22id%22%3A%22com.box.gallery%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2Fjegly%2FBox%22%2C%22additionalSettings%22%3A%22%7B%5C%22apkFilterRegEx%5C%22%3A%5C%22custom-rom-support%5C%22%2C%5C%22useVersionCodeAsOSVersion%5C%22%3Atrue%7D%22%7D)
+<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22com.box.gallery%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2Fjegly%2FBox%22%2C%22additionalSettings%22%3A%22%7B%5C%22apkFilterRegEx%5C%22%3A%5C%22Main%5C%22%2C%5C%22useVersionCodeAsOSVersion%5C%22%3Atrue%7D%22%7D">
+  <img src="https://img.shields.io/badge/Obtainium-Main-brightgreen" alt="Obtainium - Main">
+</a>
+
+<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22com.box.gallery%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2Fjegly%2FBox%22%2C%22additionalSettings%22%3A%22%7B%5C%22apkFilterRegEx%5C%22%3A%5C%22custom-rom-support%5C%22%2C%5C%22useVersionCodeAsOSVersion%5C%22%3Atrue%7D%22%7D">
+  <img src="https://img.shields.io/badge/Obtainium-Custom%20ROM-brightgreen" alt="Obtainium - Custom ROM">
+</a>
 
          
   ### Which version should I install?                                                                                                                                                                                                         
