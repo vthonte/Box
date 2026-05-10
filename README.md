@@ -32,11 +32,12 @@ If this project helped you, please ⭐️ star it to help others find it
 
 ### Install via Obtainium
 
-**Main version**  
-[→ Add to Obtainium](https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22:%22com.box.gallery%22,%22url%22:%22https://github.com/jegly/Box%22,%22additionalSettings%22:%22%7B%5C%22apkFilterRegEx%5C%22:%5C%22Main%5C%22,%5C%22useVersionCodeAsOSVersion%5C%22:true%7D%22%7D)
+1. Open **Obtainium** on your phone
+2. Tap the **+** button
+3. Paste this repo URL:  
+   `https://github.com/jegly/Box`
+4. Tap **Add**
 
-**Custom ROM version**  
-[→ Add to Obtainium](https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22:%22com.box.gallery%22,%22url%22:%22https://github.com/jegly/Box%22,%22additionalSettings%22:%22%7B%5C%22apkFilterRegEx%5C%22:%5C%22custom-rom-support%5C%22,%5C%22useVersionCodeAsOSVersion%5C%22:true%7D%22%7D)
 
 *Recommended for most users: **Main version***
 
