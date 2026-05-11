@@ -25,7 +25,7 @@
 If this project helped you, please ⭐️ star it to help others find it 
 ## 📱 Download
 
-[![Download Box 1.0.5 APK](https://img.shields.io/badge/Download-Latest_APK-brightgreen?style=for-the-badge&logo=android)](https://github.com/jegly/Box/releases/latest)
+[![Download Box v1.0.8 APK](https://img.shields.io/badge/Download-Latest_APK-brightgreen?style=for-the-badge&logo=android)](https://github.com/jegly/Box/releases/latest)
 
 
 > **Note:** If you're using a custom ROM (LineageOS, GrapheneOS, CalyxOS), download the `custom-rom-support` APK from the [latest release](https://github.com/jegly/Box/releases/latest) instead.
@@ -71,6 +71,19 @@ If this project helped you, please ⭐️ star it to help others find it
 
 Box is an independent community fork of [Google AI Edge Gallery](https://github.com/google-ai-edge/gallery) and is not affiliated with or endorsed by Google LLC. Google branding has been replaced throughout. All credit for the underlying platform goes to Google and the original contributors — this fork simply builds on top of their work.
 
+
+## What's new in v1.0.8
+
+| Feature | Details |
+|---|---|
+| **Saved System Prompts** | Save, name, and reuse system prompts from the model settings dialog. Tap to apply, swipe to delete. |
+| **Restore Defaults** | New button in model settings resets all sliders (temperature, top-K, top-P, max tokens) back to defaults in one tap. |
+| **System prompt actually applied** | Changing the system prompt mid-session now correctly resets the conversation with the new instruction — previously it was saved in the UI but not passed to the model. |
+| **Markdown fix in math responses** | Plain-text segments in chat bubbles now render through the Markdown pipeline, fixing broken formatting in responses that mix text and LaTeX math. |
+| **Randomised inference seed** | Each conversation now uses a unique random seed for more varied outputs on CPU backend. |
+| **GPU determinism root cause found** | Identified why temperature/top-K/top-P had no effect on GPU (LiteRT LM v0.11.0 hard-caps `max_top_k: 1` internally on devices without a GPU sampler, forcing greedy decoding). No SDK-level fix available yet — switch to CPU in model settings for varied outputs. Reported upstream as issue #817. |
+
+---
 
 ## What's new in v1.0.7
 
@@ -352,7 +365,7 @@ Box would not exist without the work of the teams and individuals behind the pro
 
 **[off-grid-mobile-ai](https://github.com/alichherawalla/off-grid-mobile-ai)** — Mohammed Ali Chherawalla for the on-device Stable Diffusion Android implementation, which was instrumental in getting efficient on-device image generation working and influenced parts of Box’s pipeline.
 
-Thanks to **aryoda** for consistently reporting valid bugs. Appreciate the reports !
+Thanks to **aryoda** and all the contributors for consistently reporting valid bugs. Appreciate the reports !
 
 
 
