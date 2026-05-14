@@ -368,6 +368,10 @@ Box would not exist without the work of the teams and individuals behind the pro
 
 **[off-grid-mobile-ai](https://github.com/alichherawalla/off-grid-mobile-ai)** — Mohammed Ali Chherawalla for the on-device Stable Diffusion Android implementation, which was instrumental in getting efficient on-device image generation working and influenced parts of Box’s pipeline.
 
+ **[PocketSage](https://github.com/umerarif01/pocketsage)** — Umer Arif for the clean, fully offline RAG-on-Android
+  reference implementation that the Document Q&A feature in Box is based on.
+
+
 Thanks to **aryoda** and all the contributors for consistently reporting valid bugs. Appreciate the reports !
 
 
