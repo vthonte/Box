@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/jegly/Box/main/images/box-header07.svg" alt="Box Header" width="1000" />  
+<img src="https://raw.githubusercontent.com/jegly/Box/main/images/box-header03.svg" alt="Box Header" width="1000" />  
 
 [![Kotlin](https://img.shields.io/badge/Kotlin-90.4%25-6272A4.svg?logo=kotlin&logoColor=white)](https://kotlinlang.org)
 [![Android](https://img.shields.io/badge/Android-15%2B-50FA7B.svg?logo=android&logoColor=white)](https://developer.android.com)
@@ -25,7 +25,7 @@
 If this project helped you, please ⭐️ star it to help others find it 
 ## 📱 Download
 
-[![Download Box v1.0.8 APK](https://img.shields.io/badge/Download-Latest_APK-brightgreen?style=for-the-badge&logo=android)](https://github.com/jegly/Box/releases/latest)
+[![Download Box v1.0.9 APK](https://img.shields.io/badge/Download-Latest_APK-brightgreen?style=for-the-badge&logo=android)](https://github.com/jegly/Box/releases/latest)
 
 
 > **Note:** If you're using a custom ROM (LineageOS, GrapheneOS, CalyxOS), download the `custom-rom-support` APK from the [latest release](https://github.com/jegly/Box/releases/latest) instead.
@@ -72,30 +72,31 @@ If this project helped you, please ⭐️ star it to help others find it
 Box is an independent community fork of [Google AI Edge Gallery](https://github.com/google-ai-edge/gallery) and is not affiliated with or endorsed by Google LLC. Google branding has been replaced throughout. All credit for the underlying platform goes to Google and the original contributors — this fork simply builds on top of their work.
 
 
-## What's new in v1.0.8
+## What's new in v1.0.7 – v1.0.9
 
-| Feature | Details |
-|---|---|
-| **Saved System Prompts** | Save, name, and reuse system prompts from the model settings dialog. Tap to apply, swipe to delete. |
-| **Restore Defaults** | New button in model settings resets all sliders (temperature, top-K, top-P, max tokens) back to defaults in one tap. |
-| **System prompt actually applied** | Changing the system prompt mid-session now correctly resets the conversation with the new instruction — previously it was saved in the UI but not passed to the model. |
-| **Markdown fix in math responses** | Plain-text segments in chat bubbles now render through the Markdown pipeline, fixing broken formatting in responses that mix text and LaTeX math. |
-| **Randomised inference seed** | Each conversation now uses a unique random seed for more varied outputs on CPU backend. |
-| **GPU determinism root cause found** | Identified why temperature/top-K/top-P had no effect on GPU (LiteRT LM v0.11.0 hard-caps `max_top_k: 1` internally on devices without a GPU sampler, forcing greedy decoding). No SDK-level fix available yet — switch to CPU in model settings for varied outputs. Reported upstream as issue #817. |
-
----
-
-## What's new in v1.0.7
-
-| Feature | Details |
-|---|---|
-| **Gemma 4 E2B & E4B updated** | Model files refreshed on HuggingFace — new commit hashes, smaller sizes, same multimodal capabilities |
-| **Speculative decoding / MTP** | Multi-Token Prediction now working correctly — capability is read from the model file itself, not the allowlist. Gemma 4 E2B gets 66–91 tok/s on Galaxy S26 Ultra (GPU + spec) vs 52 tok/s plain GPU |
-| **Sustained Performance Mode** | `setSustainedPerformanceMode(true)` locks clocks during inference — no more mid-conversation thermal throttling on long generations |
-| **Benchmark spec decoding toggle** | Benchmark screen now shows a speculative decoding toggle for models that support it, so you can measure the real difference |
-| **AI Chat app shortcut** | Long-press the Box icon → AI Chat jumps straight into chat, even from a cold start |
-| **In-app update checker** | Settings → Check for updates — fetches the latest GitHub release and offers a direct download link for your variant (Main or custom-rom-support) |
-| **Model import from list** | Whisper and TTS models can now be imported directly from the model list, without needing a model already downloaded |
+| Version | Feature | Details |
+|---|---|---|
+| v1.0.9 | **Document Q&A** | New RAG pipeline: import PDFs and ask questions grounded in the document. Uses MiniLM embeddings (on-device, LiteRT) for chunk retrieval — model only sees the relevant passages. Every answer cites the source chunks it used. |
+| v1.0.9 | **Model picker in Document Q&A** | Choose which downloaded LLM handles answering — defaults to first available, switchable mid-session. |
+| v1.0.9 | **Kokoro TTS (English)** | Single Kokoro model (`csukuangfj/kokoro-en-v0_19`, ~346 MB) replaces broken individual-voice entries. Correct tensor shapes and metadata — works first time. |
+| v1.0.9 | **13 Piper voices** | 8 new voices: LibriTTS-R, HFC Female, HFC Male, Arctic (US English); Thorsten (German); UPMC (French); MLS 10246 (Spanish); Huayan (Chinese Mandarin). 13 total across both branches. |
+| v1.0.9 | **10 Whisper models** | Expanded from 3 hardcoded to 10: Tiny, Base, Small, Medium, Large-v3-Turbo, and Large-v3 — each in multilingual and English-only variants. Shared across Audio Scribe and Voice Input. |
+| v1.0.9 | **Gemma-4-E2B-it (Snapdragon 8 Elite)** | NPU-optimised variant added to the model allowlist — visible only on SM8750 devices. |
+| v1.0.9 | **Fix #46 — Audio Scribe OOM crash** | Replaced boxed `List<Float>` (~16 bytes/sample) with a primitive growing `FloatArray` (4 bytes/sample). 30-min audio at 16 kHz no longer causes ~460 MB excess allocation. |
+| v1.0.9 | **Fix #47 — TTS silent with non-Amy voice** | Auto-init and GrapheneOS TTS fallback now filter by download status before selecting a voice model (custom-rom-support only). |
+| v1.0.8 | **Saved System Prompts** | Save, name, and reuse system prompts from the model settings dialog. Tap to apply, swipe to delete. |
+| v1.0.8 | **Restore Defaults** | New button in model settings resets all sliders (temperature, top-K, top-P, max tokens) back to defaults in one tap. |
+| v1.0.8 | **System prompt actually applied** | Changing the system prompt mid-session now correctly resets the conversation with the new instruction — previously saved in UI but not passed to the model. |
+| v1.0.8 | **Markdown fix in math responses** | Plain-text segments in chat bubbles now render through the Markdown pipeline, fixing broken formatting in responses that mix text and LaTeX math. |
+| v1.0.8 | **Randomised inference seed** | Each conversation now uses a unique random seed for more varied outputs on CPU backend. |
+| v1.0.8 | **GPU determinism root cause found** | LiteRT LM v0.11.0 hard-caps `max_top_k: 1` on devices without a GPU sampler, forcing greedy decoding. Switch to CPU for varied outputs. Reported upstream as issue #817. |
+| v1.0.7 | **Gemma 4 E2B & E4B updated** | Model files refreshed on HuggingFace — new commit hashes, smaller sizes, same multimodal capabilities. |
+| v1.0.7 | **Speculative decoding / MTP** | Multi-Token Prediction reads capability from the model file itself. Gemma 4 E2B reaches 66–91 tok/s on Galaxy S26 Ultra (GPU + spec) vs 52 tok/s plain GPU. |
+| v1.0.7 | **Sustained Performance Mode** | `setSustainedPerformanceMode(true)` locks clocks during inference — no mid-conversation thermal throttling on long generations. |
+| v1.0.7 | **Benchmark spec decoding toggle** | Benchmark screen shows a speculative decoding toggle for supported models. |
+| v1.0.7 | **AI Chat app shortcut** | Long-press the Box icon → AI Chat jumps straight into chat, even from a cold start. |
+| v1.0.7 | **In-app update checker** | Settings → Check for updates — fetches the latest GitHub release and offers a direct download link for your variant. |
+| v1.0.7 | **Model import from list** | Whisper and TTS models can now be imported directly from the model list. |
 
 ---
 
@@ -191,7 +192,8 @@ Box is a fork of [Google AI Edge Gallery](https://github.com/google-ai-edge/gall
 | Voice mode / Vision mode | Free talk (continuous hands-free loop) and Vision talk (live camera + voice) |
 | Image generation | On-device Stable Diffusion via GGUF |
 | Speech-to-text | On-device Whisper STT |
-| Document analysis | Attach text files directly in chat |
+| Document analysis | Attach text files (`.txt`, `.md`, `.csv`, `.kt`, etc.) directly in chat |
+| Document Q&A | RAG pipeline: import PDFs, embed with MiniLM on-device, ask questions grounded in document content — answers cite their source passages |
 | Chat history | Persisted to a SQLCipher-encrypted Room database, resumable across sessions |
 | Security | Biometric app lock, hard offline mode, prompt sanitisation, audit log |
 | Agent skills | 20 built-in skills (upstream has 9) |
