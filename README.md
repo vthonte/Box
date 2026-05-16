@@ -145,7 +145,7 @@ Box is an Android app for running AI entirely on-device — chat, voice mode, im
 
 <table>
   <tr>
-    <td align="center"><img src="images/Box_Screenshots/LandingPage.png" width="210"/><br/><sub>Home</sub></td>
+    <td align="center"><img src="images/Box_Screenshots/Homescreen_overview.png" width="210"/><br/><sub>Home Overview</sub></td>
     <td align="center"><img src="images/Box_Screenshots/AI_Chat_Example.png" width="210"/><br/><sub>AI Chat</sub></td>
     <td align="center"><img src="images/Box_Screenshots/Ai_Chat_Input_Select.png" width="210"/><br/><sub>Multimodal Input</sub></td>
   </tr>
@@ -175,7 +175,6 @@ Box is an Android app for running AI entirely on-device — chat, voice mode, im
     <td align="center"><img src="images/Box_Screenshots/Chat_overview.png" width="210"/><br/><sub>Chat Overview</sub></td>
   </tr>
   <tr>
-    <td align="center"><img src="images/Box_Screenshots/Homescreen_overview.png" width="210"/><br/><sub>Home Overview</sub></td>
     <td align="center"><img src="images/Box_Screenshots/LocalDiffusion_overview.png" width="210"/><br/><sub>Local Diffusion</sub></td>
     <td align="center"><img src="images/Box_Screenshots/Nano_overview.png" width="210"/><br/><sub>Gemini Nano</sub></td>
   </tr>
