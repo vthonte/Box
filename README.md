@@ -1,7 +1,7 @@
 <img src="https://raw.githubusercontent.com/jegly/Box/main/images/box-header08.svg" alt="Box Header" width="1000" />  
 
 [![Kotlin](https://img.shields.io/badge/Kotlin-90.4%25-6272A4.svg?logo=kotlin&logoColor=white)](https://kotlinlang.org)
-[![Android](https://img.shields.io/badge/Android-15%2B-50FA7B.svg?logo=android&logoColor=white)](https://developer.android.com)
+[![Android](https://img.shields.io/badge/Android-16%2B-50FA7B.svg?logo=android&logoColor=white)](https://developer.android.com)
 [![Version](https://img.shields.io/badge/UpstreamVersion-1.0.13-BD93F9.svg)](https://github.com/jegly/Box/releases)
 [![License](https://img.shields.io/badge/License-Apache%202.0-8BE9FD.svg)](LICENSE)
 [![llama.cpp](https://img.shields.io/badge/llama.cpp-GGUF-FFB86C.svg)](https://github.com/ggerganov/llama.cpp)
@@ -304,7 +304,7 @@ A toggle in Settings forces the app into a fully airgapped state — all downloa
 
 ### Requirements
 
-- Android 15+
+- Android 16+
 - ~4 GB of free storage for a typical quantised LLM
 - `6 GB of Ram
 
