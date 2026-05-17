@@ -76,7 +76,7 @@ Box is an independent community fork of [Google AI Edge Gallery](https://github.
   
   
   
-## What's new in v1.0.7 – v1.0.10   - MCP is coming in v1.0.11 !
+## Changelog v1.0.7 – v1.0.10   
 
 | Version | Feature | Details |
 |---|---|---|
