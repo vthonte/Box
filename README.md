@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/jegly/Box/main/images/box-banner-v3.svg" alt="Box Header" width="78%" />
+  <img src="https://raw.githubusercontent.com/jegly/Box/main/images/box-banner-v3.svg" alt="Box Header" width="79%" />
 </p>
 
 [![Kotlin](https://img.shields.io/badge/Kotlin-90.4%25-6272A4.svg?logo=kotlin&logoColor=white)](https://kotlinlang.org)
