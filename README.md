@@ -25,7 +25,7 @@
 [![Fork](https://img.shields.io/badge/Fork-Google%20AI%20Edge-6272A4.svg)](https://github.com/google-ai-edge/gallery)
 ![GitHub all releases](https://img.shields.io/github/downloads/jegly/Box/total)                                                                
 
-If this project helped you, please ⭐️ star it to help others find it 
+If this project helped you, please ⭐️ star it to help others find it, Stay tuned for cross platform releases that are in the works !
 ## 📱 Download
 
 [![Download Box v1.0.10 APK](https://img.shields.io/badge/Download-Latest_APK-brightgreen?style=for-the-badge&logo=android)](https://github.com/jegly/Box/releases/latest)
