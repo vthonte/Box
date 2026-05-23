@@ -4,7 +4,7 @@
 
 [![Kotlin](https://img.shields.io/badge/Kotlin-90.4%25-6272A4.svg?logo=kotlin&logoColor=white)](https://kotlinlang.org)
 [![Android](https://img.shields.io/badge/Android-16%2B-50FA7B.svg?logo=android&logoColor=white)](https://developer.android.com)
-[![Version](https://img.shields.io/badge/UpstreamVersion-1.0.13-BD93F9.svg)](https://github.com/jegly/Box/releases)
+[![Version](https://img.shields.io/badge/UpstreamVersion-1.0.15-BD93F9.svg)](https://github.com/jegly/Box/releases)
 [![License](https://img.shields.io/badge/License-Apache%202.0-8BE9FD.svg)](LICENSE)
 [![llama.cpp](https://img.shields.io/badge/llama.cpp-GGUF-FFB86C.svg)](https://github.com/ggerganov/llama.cpp)
 [![stable-diffusion.cpp](https://img.shields.io/badge/stable--diffusion.cpp-GGUF-FFB86C.svg)](https://github.com/leejet/stable-diffusion.cpp)
