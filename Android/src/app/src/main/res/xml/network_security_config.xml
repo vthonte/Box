@@ -3,6 +3,7 @@
     <base-config cleartextTrafficPermitted="false">
         <trust-anchors>
             <certificates src="system" />
+            <certificates src="user" />
         </trust-anchors>
     </base-config>
     <!-- Box: Allow these Google hosts for model allowlist + downloads -->
@@ -14,5 +15,11 @@
         <trust-anchors>
             <certificates src="system" />
         </trust-anchors>
+    </domain-config>    
+	<!-- Allow cleartext HTTP to localhost and emulator host -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">127.0.0.1</domain>
+        <domain includeSubdomains="true">localhost</domain>
+        <domain includeSubdomains="true">10.0.2.2</domain>
     </domain-config>
 </network-security-config>

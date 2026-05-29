@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/jegly/Box/main/images/banner-box002.svg" alt="Box Header" width="81%" />
+  <img src="images/banner-box002.svg" alt="Box Header" width="81%" />
 </p>
 
 [![RAG](https://img.shields.io/badge/RAG-Retrieval%20Augmented-BD93F9.svg)](https://en.wikipedia.org/wiki/Retrieval-augmented_generation)
 [![MCP Servers](https://img.shields.io/badge/MCP_Servers-BD93F9.svg?logo=anthropic&logoColor=white)](https://modelcontextprotocol.io)
 [![Kotlin](https://img.shields.io/badge/Kotlin-90.4%25-6272A4.svg?logo=kotlin&logoColor=white)](https://kotlinlang.org)
 [![Android](https://img.shields.io/badge/Android-16%2B-50FA7B.svg?logo=android&logoColor=white)](https://developer.android.com)
-[![Version](https://img.shields.io/badge/UpstreamVersion-1.0.15-BD93F9.svg)](https://github.com/jegly/Box/releases)
+[![Version](https://img.shields.io/badge/UpstreamVersion-1.0.15-BD93F9.svg)](https://github.com/Vasili-Sk/AI-Box-plus/releases)
 [![License](https://img.shields.io/badge/License-Apache%202.0-8BE9FD.svg)](LICENSE)
 [![llama.cpp](https://img.shields.io/badge/llama.cpp-GGUF-FFB86C.svg)](https://github.com/ggerganov/llama.cpp)
 [![stable-diffusion.cpp](https://img.shields.io/badge/stable--diffusion.cpp-GGUF-FFB86C.svg)](https://github.com/leejet/stable-diffusion.cpp)
@@ -25,21 +25,21 @@
 [![Hybrid Engine](https://img.shields.io/badge/Engine-LiteRT%20%2B%20llama.cpp-BD93F9.svg)]()
 [![Gemini Nano](https://img.shields.io/badge/Gemini%20Nano-ML%20Kit%20%C2%B7%20NPU-FF79C6.svg)](https://developers.google.com/ml-kit/language/gemini-nano)
 [![Fork](https://img.shields.io/badge/Fork-Google%20AI%20Edge-6272A4.svg)](https://github.com/google-ai-edge/gallery)
-![GitHub all releases](https://img.shields.io/github/downloads/jegly/Box/total)                                                            
+
 
 If this project helped you, please ⭐️ star it to help others find it. 
 ## 📱 Download
 
-[![Download Box v1.0.11 APK](https://img.shields.io/badge/Download-Latest_APK-A6E3A1?style=for-the-badge&logo=android&logoColor=1E1E2E)](https://github.com/jegly/Box/releases/latest)
+[![Download Box v1.0.11 APK](https://img.shields.io/badge/Download-Latest_APK-A6E3A1?style=for-the-badge&logo=android&logoColor=1E1E2E)](https://github.com/Vasili-Sk/AI-Box-plus/releases/latest)
 
-> **Note:** If you're using a custom ROM (LineageOS, GrapheneOS, CalyxOS), download the `custom-rom-support` APK from the [latest release](https://github.com/jegly/Box/releases/latest) instead.
+> **Note:** If you're using a custom ROM (LineageOS, GrapheneOS, CalyxOS), download the `custom-rom-support` APK from the [latest release](https://github.com/Vasili-Sk/AI-Box-plus/releases/latest) instead.
 
 ### Install via Obtainium
 
 1. Open **Obtainium** on your phone
 2. Tap the **+** button
 3. Paste this repo URL:  
-   `https://github.com/jegly/Box`
+   `https://github.com/Vasili-Sk/AI-Box-plus`
 4. Tap **Add**
 
 
@@ -148,7 +148,7 @@ Built [OfflineLLM](https://github.com/jegly/OfflineLLM) first — a privacy-firs
 
 ## What is Box?  
 
-<img src="https://raw.githubusercontent.com/jegly/Box/main/images/box-banner-minimal-1600x320.svg" alt="Box Header" width="1000" />  
+<img src="images/box-banner-minimal-1600x320.svg" alt="Box Header" width="1000" />  
 
 
 
@@ -334,7 +334,7 @@ A toggle in Settings forces the app into a fully airgapped state — all downloa
 ### Build from source
 
 ```bash
-git clone --recurse-submodules https://github.com/jegly/box
+git clone --recurse-submodules https://github.com/Vasili-Sk/AI-Box-plus
 cd box/Android
 ./gradlew :app:assembleDebug
 ```
@@ -415,14 +415,14 @@ Thank you to everyone who has opened issues, tested builds, or contributed to an
 ---
 
 ## License
-<img src="https://github.com/jegly/Box/blob/main/images/Apache_Software_Foundation.png?raw=true" alt="Apache Software Foundation Logo" width="120">
+<img src="images/Apache_Software_Foundation.png" alt="Apache Software Foundation Logo" width="120">
 Licensed under the Apache License, Version 2.0
 
 ---
 
 ## Links
 
-- [Box repository](https://github.com/jegly/box)
+- [Box repository](https://github.com/Vasili-Sk/AI-Box-plus)
 - [Upstream: google-ai-edge/gallery](https://github.com/google-ai-edge/gallery)
 - [llama.cpp](https://github.com/ggml-org/llama.cpp)
 - [stable-diffusion.cpp](https://github.com/leejet/stable-diffusion.cpp)
@@ -444,7 +444,7 @@ Licensed under the Apache License, Version 2.0
 ---
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/jegly/Box/main/images/box-linux-catppuccin-latte.svg" alt="Box for Linux" width="90%" />
+  <img src="images/box-linux-catppuccin-latte.svg" alt="Box for Linux" width="90%" />
 </p>
 
 [![Python](https://img.shields.io/badge/Python-3.12%2B-BD93F9.svg?logo=python&logoColor=white)](https://www.python.org)
@@ -607,7 +607,7 @@ agent mode, and memory are each opt-in.
 
 ## Install
 
-Download the latest `.deb` from the [Releases](https://github.com/jegly/Box/releases) page:
+Download the latest `.deb` from the [Releases](https://github.com/Vasili-Sk/AI-Box-plus/releases) page:
 
 ```bash
 sudo apt install ./box_<version>_amd64.deb
