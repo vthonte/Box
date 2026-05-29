@@ -38,6 +38,9 @@ android {
     targetSdk = 36
     versionCode = 26
     versionName = "1.0.12"
+    ndk {
+      abiFilters += listOf("arm64-v8a", "armeabi-v7a")
+    }
 
     // Needed for HuggingFace auth workflows.
     // Use the scheme of the "Redirect URLs" in HuggingFace app.
@@ -109,6 +112,9 @@ dependencies {
   implementation(libs.firebase.messaging)
   implementation(libs.androidx.exifinterface)
   implementation(libs.moshi.kotlin)
+  implementation(libs.mcp.kotlin.sdk)
+  implementation(libs.ktor.client.android)
+  implementation(libs.ktor.client.core)
 
   // Box: Biometric authentication (StrongBox)
   implementation(libs.androidx.biometric)
