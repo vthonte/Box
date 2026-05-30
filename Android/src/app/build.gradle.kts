@@ -28,6 +28,9 @@ plugins {
   kotlin("kapt")
 }
 
+val localAbiOnlyArm64 =
+  providers.gradleProperty("localAbiOnlyArm64").orNull?.toBooleanStrictOrNull() == true
+
 android {
   namespace = "com.google.ai.edge.gallery"
   compileSdk = 36
@@ -39,7 +42,12 @@ android {
     versionCode = 26
     versionName = "1.0.12"
     ndk {
-      abiFilters += listOf("arm64-v8a", "armeabi-v7a")
+      abiFilters +=
+        if (localAbiOnlyArm64) {
+          listOf("arm64-v8a")
+        } else {
+          listOf("arm64-v8a", "armeabi-v7a")
+        }
     }
 
     // Needed for HuggingFace auth workflows.
@@ -115,6 +123,7 @@ dependencies {
   implementation(libs.mcp.kotlin.sdk)
   implementation(libs.ktor.client.android)
   implementation(libs.ktor.client.core)
+  implementation(libs.jsoup)
 
   // Box: Biometric authentication (StrongBox)
   implementation(libs.androidx.biometric)
@@ -160,4 +169,21 @@ protobuf {
 // the OssLicensesMenuActivity still compiles — it just won't have license data at runtime.
 tasks.configureEach {
   if (name.endsWith("OssLicensesTask")) enabled = false
+}
+
+tasks.matching { it.name == "assembleDebug" }.configureEach {
+  doLast {
+    val apkFile = file("$buildDir/outputs/apk/debug/app-debug.apk")
+    if (apkFile.exists()) {
+      val destDir = file("D:/WorkShare")
+      destDir.mkdirs()
+      copy {
+        from(apkFile)
+        into(destDir)
+      }
+      println("Copied debug APK to: ${destDir.absolutePath}")
+    } else {
+      println("Debug APK not found, skip copy: ${apkFile.absolutePath}")
+    }
+  }
 }

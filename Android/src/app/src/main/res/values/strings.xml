@@ -53,6 +53,8 @@
   <string name="category_agents" translatable="false">Agents</string>
   <string name="category_classical_ml" translatable="false">Classical ML</string>
   <string name="category_experimental" translatable="false">Experimental</string>
+  <string name="category_image_gen" translatable="false">Image Gen</string>
+  <string name="category_voice" translatable="false">Voice</string>
   <string name="chat_textinput_placeholder" translatable="false">Type message…</string>
   <string name="chat_you" translatable="false">You</string>
   <string name="chat_llm_agent_name" translatable="false">LLM</string>
@@ -209,6 +211,9 @@
   <string name="update_available" translatable="false">Update available</string>
   <string name="view_results" translatable="false">View results</string>
   <string name="view_console_logs" translatable="false">View console logs</string>
+  <string name="view_data_seen_by_model" translatable="false">View data</string>
+  <string name="view_data" translatable="false">View data</string>
+  <string name="data_seen_by_model" translatable="false">Data seen by model</string>
   <string name="warming_up" translatable="false">warming up…</string>
   <string name="warning_no_function_call" translatable="false">No function recognized</string>
   <string name="snackbar_no_function_call" translatable="false">No function recognized</string>
@@ -231,6 +236,13 @@
   <string name="prompt_template_label_create_calendar_event" translatable="false">Create calendar event</string>
   <string name="prompt_template_label_show_location_on_map" translatable="false">Show location on map</string>
   <string name="prompt_template_label_open_wifi_settings" translatable="false">Open WIFI settings</string>
+  <string name="prompt_template_label_set_alarm" translatable="false">Set alarm</string>
+  <string name="prompt_template_label_set_timer" translatable="false">Set timer</string>
+  <string name="prompt_template_label_dial_number" translatable="false">Dial number</string>
+  <string name="prompt_template_label_send_sms" translatable="false">Send SMS</string>
+  <string name="prompt_template_label_open_url" translatable="false">Open URL</string>
+  <string name="prompt_template_label_open_bluetooth_settings" translatable="false">Open Bluetooth settings</string>
+  <string name="prompt_template_label_open_sound_settings" translatable="false">Open Sound settings</string>
 
   <!-- Strings for MobileActionsChallengeDialog -->
   <string name="mobile_actions_challenge_title" translatable="false">Mobile Actions Finetune Challenge</string>
@@ -338,6 +350,7 @@
   <string name="mcp_tool_revoke_permission_title" translatable="false">Revoke permission?</string>
   <string name="mcp_tool_revoke_permission_content" translatable="false">Are you sure you want to revoke permission to automatically call this tool?</string>
   <string name="manage_mcp_servers" translatable="false">Manage MCP servers</string>
+  <string name="choose_tool_manager" translatable="false">Choose what you want to manage.</string>
   <string name="add_mcp_server" translatable="false">Add MCP server</string>
   <string name="learn_more_about_mcp" translatable="false">Learn more about MCP in Google AI Edge Gallery</string>
   <string name="learn_more_about_mcp_short" translatable="false">Learn more</string>

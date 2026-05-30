@@ -43,8 +43,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Article
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.outlined.Code
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -72,6 +75,7 @@ private const val MAX_DESCRIPTION_LINES = 5
 fun MessageBodyCollapsableProgressPanel(message: ChatMessageCollapsableProgressPanel) {
   var isExpanded by remember { mutableStateOf(false) }
   var showLogsViewer by remember { mutableStateOf(false) }
+  var showDataViewer by remember { mutableStateOf(false) }
 
   Column(
     modifier =
@@ -115,6 +119,21 @@ fun MessageBodyCollapsableProgressPanel(message: ChatMessageCollapsableProgressP
             Text(text = curTitle, style = MaterialTheme.typography.labelLarge)
           }
         }
+      }
+
+      if (message.customData is String && message.customData.isNotBlank()) {
+        AssistChip(
+          onClick = { showDataViewer = true },
+          label = { Text(stringResource(R.string.view_data)) },
+          leadingIcon = {
+            Icon(
+              Icons.Outlined.Code,
+              contentDescription = null,
+              Modifier.size(AssistChipDefaults.IconSize),
+              tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+          },
+        )
       }
 
       // Expand/Collapse Button on the right side
@@ -204,11 +223,29 @@ fun MessageBodyCollapsableProgressPanel(message: ChatMessageCollapsableProgressP
             )
           }
         }
+
       }
     }
   }
 
   if (showLogsViewer) {
     LogsViewer(logs = message.logMessages, onDismissRequest = { showLogsViewer = false })
+  }
+
+  if (showDataViewer && message.customData is String) {
+    AlertDialog(
+      onDismissRequest = { showDataViewer = false },
+      title = { Text(stringResource(R.string.data_seen_by_model)) },
+      text = {
+        Text(
+          text = message.customData as String,
+          style = MaterialTheme.typography.bodySmall,
+          modifier = Modifier.heightIn(max = 360.dp).verticalScroll(rememberScrollState()),
+        )
+      },
+      confirmButton = {
+        Button(onClick = { showDataViewer = false }) { Text(stringResource(R.string.close)) }
+      },
+    )
   }
 }

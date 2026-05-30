@@ -67,6 +67,12 @@ internal const val DEFAULT_SYSTEM_PROMPT =
   --- MCP TOOLS ---
   ___TOOLS___
 
+  --- WEB TOOLS ---
+  - `searchWeb(query, maxResults)`:
+    Searches the web and returns candidate links.
+  - `parseWebPage(url, maxChars)`:
+    Fetches a page and returns cleaned Markdown main content.
+
   ==================================================
   FLOW A: SKILL EXECUTION
   ==================================================
@@ -89,6 +95,38 @@ internal const val DEFAULT_SYSTEM_PROMPT =
      - `input`: The input JSON object that matches the tool's expected input schema.
 
   6. Output ONLY the final result returned by the tool. You MUST NOT output any intermediate thoughts or status updates. No exceptions!
+
+  ==================================================
+  FLOW C: WEB RESEARCH AND CRAWLING
+  ==================================================
+
+  7. Trigger web tools when either condition is true:
+     - The user explicitly asks for web/internet search, latest/current information, references, citations, comparisons, or source links.
+     - You determine your answer would be materially better by using web evidence (for example nested link discovery, multi-source verification, or ambiguity resolution).
+
+  8. Web research procedure (autonomous):
+     - Start with `searchWeb` using a focused query.
+     - Immediately parse results yourself. Do NOT ask the user to pick URLs.
+     - Treat `searchWeb` `results_json` as machine-readable input and extract each item's `url` field directly.
+     - Score and rank results by relevance, credibility, freshness, and diversity.
+     - Select exactly the top 3 URLs and call `parseWebPage` on each one before answering.
+     - If needed, follow nested links discovered in parsed pages and continue crawling in bounded depth.
+     - Stop when evidence is sufficient to answer accurately.
+     - Do NOT ask the user which links to parse. You must choose and parse links autonomously.
+
+  9. Crawler guardrails:
+     - Prefer high-signal sources and avoid obvious low-quality/spam pages.
+     - Avoid redundant parsing of near-duplicate pages.
+     - Keep crawling bounded: typically 3-5 pages first, expand only when necessary.
+     - If evidence conflicts, parse additional sources and report uncertainty explicitly.
+
+  10. Output policy for web-grounded answers:
+      - Provide a concise answer first.
+      - Then include key findings with source URLs.
+      - If no reliable evidence is found, clearly say so and explain limits.
+      - Do NOT fabricate citations, quotes, or facts.
+      - Do NOT ask for confirmation before parsing links unless the user explicitly requested manual approval mode.
+      - Never ask the user for a URL if `searchWeb` already returned candidate URLs.
   """
 
 private val DEFAULT_SYSTEM_PROMPT_TRIMMED = DEFAULT_SYSTEM_PROMPT.trimIndent()
@@ -96,7 +134,7 @@ private val DEFAULT_SYSTEM_PROMPT_TRIMMED = DEFAULT_SYSTEM_PROMPT.trimIndent()
 // The default system prompt for the agent chat task with only skills.
 internal const val DEFAULT_SYSTEM_PROMPT_SKILLS_ONLY =
   """
-  You are an AI assistant that helps users by answering questions and completes tasks using skills. For EVERY new task or request or question, you MUST execute the following steps in exact order. You MUST NOT skip any steps.
+  You are an AI assistant that helps users by answering questions and completes tasks using skills and local tools. For EVERY new task or request or question, you MUST execute the following steps in exact order. You MUST NOT skip any steps.
 
   CRITICAL RULE: You MUST execute all steps silently. Do NOT generate or output any internal thoughts, reasoning, explanations, or intermediate text at ANY step.
 
@@ -110,7 +148,13 @@ internal const val DEFAULT_SYSTEM_PROMPT_SKILLS_ONLY =
 
   3. Follow the skill's instructions exactly to complete the task. You MUST NOT output any intermediate thoughts or status updates. No exceptions! Output ONLY the final result when successful. It should contain one-sentence summary of the action taken, and the final result of the skill.
 
-  4. If no relevant skill is found, output "No relevant skills found" and stop.
+  4. If no relevant skill is found and web evidence is required, use `searchWeb` and `parseWebPage` autonomously:
+     - Search, rank, and parse exactly top 3 URLs before answering.
+     - Read URL candidates directly from `searchWeb` `results_json` and call `parseWebPage` on selected URLs.
+     - Do NOT ask the user to pick links; choose links yourself.
+     - Do NOT ask the user for URLs when search results already include URLs.
+
+  5. If no relevant skill is found and web evidence is not required, output "No relevant skills found" and stop.
   """
 
 private val DEFAULT_SYSTEM_PROMPT_SKILLS_ONLY_TRIMMED =
@@ -140,12 +184,11 @@ class AgentChatTask @Inject constructor() : CustomTask {
     context: Context,
     coroutineScope: CoroutineScope,
     model: Model,
-    systemInstruction: Contents?,
     onDone: (String) -> Unit,
   ) {
-    val initialSystemPrompt = systemInstruction?.toString() ?: task.defaultSystemPrompt
+    val initialSystemPrompt = task.defaultSystemPrompt
     coroutineScope.launch(Dispatchers.Default) {
-      val skillsJob = launch { agentTools.skillManagerViewModel.loadSkills() }
+      val skillsJob = launch { agentTools.skillManagerViewModel.loadSkills {} }
       val mcpJob = launch { agentTools.mcpManagerViewModel.loadMcpServers() }
       skillsJob.join()
       mcpJob.join()
@@ -165,7 +208,6 @@ class AgentChatTask @Inject constructor() : CustomTask {
       LlmChatModelHelper.initialize(
         context = context,
         model = model,
-        taskId = task.id,
         supportImage = true,
         supportAudio = true,
         onDone = onDone,
@@ -193,7 +235,6 @@ class AgentChatTask @Inject constructor() : CustomTask {
       modelManagerViewModel = myData.modelManagerViewModel,
       navigateUp = myData.onNavUp,
       agentTools = agentTools,
-      initialQuery = myData.initialQuery,
     )
   }
 }

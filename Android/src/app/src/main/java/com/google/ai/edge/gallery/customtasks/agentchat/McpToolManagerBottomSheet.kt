@@ -41,6 +41,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -63,8 +65,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.google.ai.edge.gallery.R
 import com.google.ai.edge.gallery.proto.McpTool
-import com.google.ai.edge.gallery.ui.common.SmallFilledTonalButton
-import com.google.ai.edge.gallery.ui.common.SmallOutlinedButton
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -203,17 +203,20 @@ fun McpToolManagerBottomSheet(
                 horizontalArrangement = Arrangement.Start,
                 modifier = Modifier.padding(top = 8.dp),
               ) {
-                SmallFilledTonalButton(
-                  onClick = { toolToView = tool },
-                  labelResId = R.string.view,
-                  imageVector = Icons.Outlined.RemoveRedEye,
-                )
+                FilledTonalButton(onClick = { toolToView = tool }) {
+                  Icon(
+                    Icons.Outlined.RemoveRedEye,
+                    contentDescription = null,
+                    modifier = Modifier.width(16.dp),
+                  )
+                  Spacer(modifier = Modifier.width(6.dp))
+                  Text(stringResource(R.string.view))
+                }
                 if (tool.alwaysAllow) {
                   Spacer(modifier = Modifier.width(8.dp))
-                  SmallOutlinedButton(
-                    onClick = { toolToRevoke = tool },
-                    labelResId = R.string.mcp_tool_revoke_permission,
-                  )
+                  OutlinedButton(onClick = { toolToRevoke = tool }) {
+                    Text(stringResource(R.string.mcp_tool_revoke_permission))
+                  }
                 }
               }
             }

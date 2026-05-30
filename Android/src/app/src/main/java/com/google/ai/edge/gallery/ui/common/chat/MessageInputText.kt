@@ -170,6 +170,9 @@ fun MessageInputText(
   onSetAudioRecorderVisible: (visible: Boolean) -> Unit = {},
   onAmplitudeChanged: (Int) -> Unit,
   onSkillsClicked: () -> Unit = {},
+  skillCount: Int = 0,
+  onMcpClicked: () -> Unit = {},
+  mcpCount: Int = 0,
   onPickedImagesChanged: (List<Bitmap>) -> Unit = {},
   onPickedAudioClipsChanged: (List<AudioClip>) -> Unit = {},
   showPromptTemplatesInMenu: Boolean = false,
@@ -695,7 +698,13 @@ fun MessageInputText(
                       onClick = onSkillsClicked,
                       enabled = !inProgress && !isResettingSession && !modelInitializing,
                     ) {
-                      Text(stringResource(R.string.skills))
+                      Text("Skills ($skillCount)")
+                    }
+                    OutlinedButton(
+                      onClick = onMcpClicked,
+                      enabled = !inProgress && !isResettingSession && !modelInitializing,
+                    ) {
+                      Text("MCP ($mcpCount)")
                     }
                   }
                 }

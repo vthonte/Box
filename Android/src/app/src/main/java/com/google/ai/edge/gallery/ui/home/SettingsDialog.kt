@@ -95,6 +95,10 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlin.math.min
 
+private const val WEB_SETTINGS_PREFS = "box_settings"
+private const val WEB_PAGE_CHAR_LIMIT_KEY = "web_page_char_limit"
+private const val DEFAULT_WEB_PAGE_CHAR_LIMIT = 8000
+
 private val THEME_OPTIONS = listOf(Theme.THEME_AUTO, Theme.THEME_LIGHT, Theme.THEME_DARK)
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -106,6 +110,14 @@ fun SettingsDialog(
 ) {
   var selectedTheme by remember { mutableStateOf(curThemeOverride) }
   var hfToken by remember { mutableStateOf(modelManagerViewModel.getTokenStatusAndData().data) }
+  val appContext = LocalContext.current
+  val webPrefs = remember { appContext.getSharedPreferences(WEB_SETTINGS_PREFS, Context.MODE_PRIVATE) }
+  var webPageCharLimitInput by
+    remember {
+      mutableStateOf(
+        webPrefs.getInt(WEB_PAGE_CHAR_LIMIT_KEY, DEFAULT_WEB_PAGE_CHAR_LIMIT).toString()
+      )
+    }
   val dateFormatter = remember {
     DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
       .withZone(ZoneId.systemDefault())
@@ -400,6 +412,77 @@ fun SettingsDialog(
                   com.google.ai.edge.gallery.security.OfflineMode.setEnabled(context, it)
                 },
               )
+            }
+          }
+
+          // Web parser max page size.
+          Column(
+            modifier = Modifier.fillMaxWidth().semantics(mergeDescendants = true) {},
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+          ) {
+            Text(
+              "Web parser page size limit",
+              style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Medium),
+            )
+            Text(
+              "Maximum characters sent from parsed page content to model context (1000-20000).",
+              style = MaterialTheme.typography.bodySmall,
+              color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Row(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
+              BasicTextField(
+                value = webPageCharLimitInput,
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                modifier =
+                  Modifier
+                    .weight(1f)
+                    .padding(top = 4.dp)
+                    .focusRequester(focusRequester)
+                    .onFocusChanged { isFocused = it.isFocused },
+                onValueChange = { value ->
+                  webPageCharLimitInput = value.filter { it.isDigit() }.take(5)
+                },
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onSurface),
+                cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
+              ) { innerTextField ->
+                Box(
+                  modifier =
+                    Modifier.border(
+                        width = if (isFocused) 2.dp else 1.dp,
+                        color =
+                          if (isFocused) MaterialTheme.colorScheme.primary
+                          else MaterialTheme.colorScheme.outline,
+                        shape = CircleShape,
+                      )
+                      .height(40.dp),
+                  contentAlignment = Alignment.CenterStart,
+                ) {
+                  Box(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
+                    if (webPageCharLimitInput.isEmpty()) {
+                      Text(
+                        DEFAULT_WEB_PAGE_CHAR_LIMIT.toString(),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = MaterialTheme.typography.bodySmall,
+                      )
+                    }
+                    innerTextField()
+                  }
+                }
+              }
+              Button(
+                onClick = {
+                  val parsed =
+                    webPageCharLimitInput.toIntOrNull()?.coerceIn(1000, 20000)
+                      ?: DEFAULT_WEB_PAGE_CHAR_LIMIT
+                  webPrefs.edit().putInt(WEB_PAGE_CHAR_LIMIT_KEY, parsed).apply()
+                  webPageCharLimitInput = parsed.toString()
+                  focusManager.clearFocus()
+                }
+              ) {
+                Text("Save")
+              }
             }
           }
 

@@ -301,7 +301,7 @@ abstract class ChatViewModel : ViewModel() {
                 } else {
                   listOf()
                 },
-            customData = lastProgressPanelMessage.customData,
+            customData = customData ?: lastProgressPanelMessage.customData,
             logMessages = lastProgressPanelMessage.logMessages,
           )
         newMessages[lastProgressPanelMessageIndex] = updatedMessage

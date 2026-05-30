@@ -1250,9 +1250,13 @@ constructor(
     val llmSupportTinyGarden = info.llmConfig.supportTinyGarden
     val llmSupportMobileActions = info.llmConfig.supportMobileActions
     val llmSupportThinking = info.llmConfig.supportThinking
+    // Imported model proto currently stores default max tokens but not explicit max context length.
+    // Expose a 32K ceiling so uploaded models can be tuned similarly to official long-context models.
+    val importedMaxContextLength = maxOf(llmMaxToken, 32000)
     val configs: MutableList<Config> =
       createLlmChatConfigs(
           defaultMaxToken = llmMaxToken,
+          defaultMaxContextLength = importedMaxContextLength,
           defaultTopK = info.llmConfig.defaultTopk,
           defaultTopP = info.llmConfig.defaultTopp,
           defaultTemperature = info.llmConfig.defaultTemperature,

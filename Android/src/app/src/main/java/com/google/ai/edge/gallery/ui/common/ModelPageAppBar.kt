@@ -16,6 +16,7 @@
 
 package com.google.ai.edge.gallery.ui.common
 
+import android.app.ActivityManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,6 +37,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -59,6 +61,8 @@ import com.google.ai.edge.gallery.data.Task
 import com.google.ai.edge.gallery.data.convertValueToTargetType
 import com.google.ai.edge.gallery.ui.modelmanager.ModelInitializationStatusType
 import com.google.ai.edge.gallery.ui.modelmanager.ModelManagerViewModel
+import kotlin.math.roundToInt
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -94,6 +98,7 @@ fun ModelPageAppBar(
     modelInitializationStatus?.status == ModelInitializationStatusType.INITIALIZED
   val isModelError =
     modelInitializationStatus?.status == ModelInitializationStatusType.ERROR
+  val ramUsageText = rememberRamUsageText()
 
   CenterAlignedTopAppBar(
     title = {
@@ -135,10 +140,17 @@ fun ModelPageAppBar(
     // The back button.
     navigationIcon = {
       val enableBackButton = !isModelInitializing && !inProgress
-      IconButton(onClick = onBackClicked, enabled = enableBackButton) {
-        Icon(
-          imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-          contentDescription = stringResource(R.string.cd_navigate_back_icon),
+      Row(verticalAlignment = Alignment.CenterVertically) {
+        IconButton(onClick = onBackClicked, enabled = enableBackButton) {
+          Icon(
+            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+            contentDescription = stringResource(R.string.cd_navigate_back_icon),
+          )
+        }
+        Text(
+          text = ramUsageText,
+          style = MaterialTheme.typography.labelSmall,
+          color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
       }
     },
@@ -288,4 +300,25 @@ fun ModelPageAppBar(
       curSystemPrompt = curSystemPrompt,
     )
   }
+}
+
+@Composable
+private fun rememberRamUsageText(): String {
+  val context = LocalContext.current
+  var label by remember { mutableStateOf("--/--GB") }
+  LaunchedEffect(context) {
+    val activityManager = context.getSystemService(ActivityManager::class.java)
+    val memInfo = ActivityManager.MemoryInfo()
+    val gb = 1024.0 * 1024.0 * 1024.0
+    while (true) {
+      if (activityManager != null) {
+        activityManager.getMemoryInfo(memInfo)
+        val totalGb = (memInfo.totalMem / gb).roundToInt()
+        val usedGb = ((memInfo.totalMem - memInfo.availMem) / gb).roundToInt()
+        label = "${usedGb}/${totalGb}GB"
+      }
+      delay(2000)
+    }
+  }
+  return label
 }

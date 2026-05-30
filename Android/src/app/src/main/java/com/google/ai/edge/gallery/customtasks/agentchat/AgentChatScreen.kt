@@ -105,7 +105,6 @@ import com.google.ai.edge.gallery.ui.llmchat.LlmChatScreen
 import com.google.ai.edge.gallery.ui.llmchat.LlmChatViewModel
 import com.google.ai.edge.gallery.ui.modelmanager.ModelInitializationStatusType
 import com.google.ai.edge.gallery.ui.modelmanager.ModelManagerViewModel
-import com.google.ai.edge.litertlm.Message
 import com.google.ai.edge.litertlm.tool
 import java.lang.Exception
 import kotlin.coroutines.resume
@@ -150,7 +149,6 @@ fun AgentChatScreen(
   var webViewRef: WebView? by remember { mutableStateOf(null) }
   val chatWebViewClient = remember { ChatWebViewClient(context = context) }
   var curSystemPrompt by remember { mutableStateOf(task.defaultSystemPrompt) }
-  val systemPromptUpdatedMessage = stringResource(R.string.system_prompt_updated)
   var sendMessageTrigger by remember { mutableStateOf<SendMessageTrigger?>(null) }
   var showAlertForDisabledSkill by remember { mutableStateOf(false) }
   var disabledSkillName by remember { mutableStateOf("") }
@@ -162,9 +160,6 @@ fun AgentChatScreen(
       currentPermissionAction?.result?.complete(permissionGranted)
       currentPermissionAction = null
     }
-
-  LaunchedEffect(task) { viewModel.loadSystemPrompt(task) }
-  val uiSystemPrompt by viewModel.uiSystemPrompt.collectAsState()
 
   // Collect UI states from view models. Ensure launched effect is triggered when the UI state is
   // updated.
@@ -180,8 +175,8 @@ fun AgentChatScreen(
       .filter { it.mcpServer.enabled }
       .sumOf { it.mcpServer.toolsList.count { tool -> tool.enabled } }
 
-  LaunchedEffect(uiSystemPrompt, mcpToolsCount) {
-    curSystemPrompt = getEffectiveBaseSystemPrompt(uiSystemPrompt, mcpToolsCount > 0)
+  LaunchedEffect(mcpToolsCount) {
+    curSystemPrompt = getEffectiveBaseSystemPrompt(task.defaultSystemPrompt, mcpToolsCount > 0)
   }
 
   val selectedModel = modelManagerUiState.selectedModel
@@ -216,9 +211,6 @@ fun AgentChatScreen(
     modelManagerViewModel = modelManagerViewModel,
     taskId = BuiltInTaskId.LLM_AGENT_CHAT,
     navigateUp = navigateUp,
-    skillCount = skillCount,
-    mcpCount = mcpCount,
-    mcpToolsCount = mcpToolsCount,
     onFirstToken = { model ->
       scope.launch(Dispatchers.Main) {
         updateProgressPanel(viewModel = viewModel, model = model, agentTools = agentTools)
@@ -269,7 +261,7 @@ fun AgentChatScreen(
         updateProgressPanel(viewModel = viewModel, model = model, agentTools = agentTools)
       }
     },
-    onResetSessionClickedOverride = { task, _, initialMessages, clearHistory, onDone ->
+    onResetSessionClickedOverride = { task, model ->
       resetSessionWithCurrentSkillsAndMcps(
         viewModel,
         modelManagerViewModel,
@@ -277,20 +269,15 @@ fun AgentChatScreen(
         task,
         curSystemPrompt,
         agentTools,
-        onDone = { onDone() },
-        initialMessages = initialMessages,
-        clearHistory = clearHistory,
+        onDone = { _ -> },
       )
     },
     onSkillClicked = { showSkillManagerBottomSheet = true },
+    skillCount = skillCount,
     onMcpClicked = { showMcpManagerBottomSheet = true },
+    mcpCount = mcpCount,
     showImagePicker = true,
     showAudioPicker = true,
-    getActiveSkills = {
-      skillManagerViewModel.getSelectedSkills().map { skill ->
-        skillManagerViewModel.getSkillShortId(skill)
-      }
-    },
     composableBelowMessageList = { model ->
       val actionChannel = agentTools.actionChannel
       val doneIcon = ImageVector.vectorResource(R.drawable.skill)
@@ -321,8 +308,7 @@ fun AgentChatScreen(
                 } else {
                   action.url
                 }
-              val skill = skillManagerViewModel.getSkill(name = skillName)
-              val skillId = skill?.let { skillManagerViewModel.getSkillShortId(it) } ?: "xxxx"
+              val skillId = skillName
               try {
                 // Set up a safety net timeout so we NEVER hang the chat or tool execution
                 launch {
@@ -479,12 +465,7 @@ fun AgentChatScreen(
     curSystemPrompt = curSystemPrompt,
     onSystemPromptChanged = { newPrompt ->
       curSystemPrompt = newPrompt
-      viewModel.applySystemPromptChange(
-        task = task,
-        model = modelManagerViewModel.uiState.value.selectedModel,
-        newPrompt = newPrompt,
-        systemPromptUpdatedMessage = systemPromptUpdatedMessage,
-      )
+      viewModel.updateSystemPrompt(newPrompt)
     },
     emptyStateComposable = { model ->
       val uiState by viewModel.uiState.collectAsState()
@@ -751,19 +732,8 @@ private fun resetSessionWithCurrentSkillsAndMcps(
   curSystemPrompt: String,
   agentTools: AgentTools,
   onDone: (Model) -> Unit = {},
-  initialMessages: List<ChatMessage> = listOf(),
-  clearHistory: Boolean = true,
 ) {
   val model = modelManagerViewModel.uiState.value.selectedModel
-  val litertMessages = initialMessages.mapNotNull { chatMessage ->
-    if (chatMessage is ChatMessageText) {
-      if (chatMessage.side == ChatSide.USER) {
-        Message.user(chatMessage.content)
-      } else {
-        Message.model(chatMessage.content)
-      }
-    } else null
-  }
   val toolsPrompt = agentTools.mcpManagerViewModel.getToolsPrompt()
   val actualSystemPrompt = getEffectiveBaseSystemPrompt(curSystemPrompt, toolsPrompt.isNotEmpty())
   viewModel.resetSession(
@@ -780,8 +750,6 @@ private fun resetSessionWithCurrentSkillsAndMcps(
     supportAudio = true,
     onDone = { onDone(model) },
     enableConversationConstrainedDecoding = true,
-    initialMessages = litertMessages,
-    clearHistory = clearHistory,
   )
 }
 

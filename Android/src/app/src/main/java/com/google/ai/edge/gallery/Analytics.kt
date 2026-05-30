@@ -41,4 +41,7 @@ enum class GalleryEvent(val id: String) {
   MODEL_DOWNLOAD(id = "model_download"),
   GENERATE_ACTION(id = "generate_action"),
   BUTTON_CLICKED(id = "button_clicked"),
+  MCP_MANAGEMENT(id = "mcp_management"),
+  SKILL_EXECUTION(id = "skill_execution"),
+  MCP_EXECUTION(id = "mcp_execution"),
 }

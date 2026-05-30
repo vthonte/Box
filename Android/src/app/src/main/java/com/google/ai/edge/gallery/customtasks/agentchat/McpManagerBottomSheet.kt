@@ -61,6 +61,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -95,8 +96,6 @@ import com.google.ai.edge.gallery.R
 import com.google.ai.edge.gallery.common.clearFocusOnKeyboardDismiss
 import com.google.ai.edge.gallery.firebaseAnalytics
 import com.google.ai.edge.gallery.ui.common.ClickableLink
-import com.google.ai.edge.gallery.ui.common.SmallFilledTonalButton
-import com.google.ai.edge.gallery.ui.common.SmallOutlinedButton
 import com.google.ai.edge.gallery.ui.theme.customColors
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -518,18 +517,17 @@ private fun McpServerItemRow(
       ) {
         val enabledToolsCount = server.toolsList.count { it.enabled }
         val totalToolsCount = server.toolsList.size
-        SmallFilledTonalButton(
-          onClick = onToolsClick,
-          label = "Tools ($enabledToolsCount/$totalToolsCount)",
-          imageVector = Icons.Outlined.Tune,
-          enabled = serverState.error == null,
-        )
+        FilledTonalButton(onClick = onToolsClick, enabled = serverState.error == null) {
+          Icon(Icons.Outlined.Tune, contentDescription = null, modifier = Modifier.size(16.dp))
+          Spacer(modifier = Modifier.width(6.dp))
+          Text("Tools ($enabledToolsCount/$totalToolsCount)")
+        }
         Spacer(modifier = Modifier.width(8.dp))
-        SmallOutlinedButton(
-          onClick = onDeleteClick,
-          labelResId = R.string.delete,
-          imageVector = Icons.Outlined.Delete,
-        )
+        OutlinedButton(onClick = onDeleteClick) {
+          Icon(Icons.Outlined.Delete, contentDescription = null, modifier = Modifier.size(16.dp))
+          Spacer(modifier = Modifier.width(6.dp))
+          Text(stringResource(R.string.delete))
+        }
       }
     }
   }

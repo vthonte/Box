@@ -67,6 +67,7 @@ import com.google.ai.edge.gallery.GalleryEvent
 import com.google.ai.edge.gallery.R
 import com.google.ai.edge.gallery.firebaseAnalytics
 import com.google.ai.edge.gallery.proto.McpAuth
+import com.google.ai.edge.gallery.ui.common.ClickableLink
 import java.net.URI
 
 private const val TAG = "AGAddMcpServerDialog"
@@ -134,6 +135,10 @@ fun AddMcpServerFromUrlDialog(
           stringResource(R.string.add_mcp_server_from_url_dialog_title),
           style = MaterialTheme.typography.titleMedium,
           modifier = Modifier.padding(bottom = 8.dp),
+        )
+        ClickableLink(
+          url = "https://github.com/google-ai-edge/gallery/tree/main/mcp",
+          linkText = stringResource(R.string.learn_more_about_mcp_short),
         )
         // Container for input label and text field
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {

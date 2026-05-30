@@ -68,6 +68,9 @@ fun LlmChatScreen(
   onFirstToken: (Model) -> Unit = {},
   onGenerateResponseDone: (Model) -> Unit = {},
   onSkillClicked: () -> Unit = {},
+  skillCount: Int = 0,
+  onMcpClicked: () -> Unit = {},
+  mcpCount: Int = 0,
   onResetSessionClickedOverride: ((Task, Model) -> Unit)? = null,
   composableBelowMessageList: @Composable (Model) -> Unit = {},
   viewModel: LlmChatViewModel = hiltViewModel(),
@@ -89,6 +92,9 @@ fun LlmChatScreen(
     navigateUp = navigateUp,
     modifier = modifier,
     onSkillClicked = onSkillClicked,
+    skillCount = skillCount,
+    onMcpClicked = onMcpClicked,
+    mcpCount = mcpCount,
     onFirstToken = onFirstToken,
     onGenerateResponseDone = onGenerateResponseDone,
     onResetSessionClickedOverride = onResetSessionClickedOverride,
@@ -189,6 +195,9 @@ fun ChatViewWrapper(
   navigateUp: () -> Unit,
   modifier: Modifier = Modifier,
   onSkillClicked: () -> Unit = {},
+  skillCount: Int = 0,
+  onMcpClicked: () -> Unit = {},
+  mcpCount: Int = 0,
   onFirstToken: (Model) -> Unit = {},
   onGenerateResponseDone: (Model) -> Unit = {},
   onResetSessionClickedOverride: ((Task, Model) -> Unit)? = null,
@@ -302,6 +311,9 @@ fun ChatViewWrapper(
     showStopButtonInInputWhenInProgress = true,
     onStopButtonClicked = { model -> viewModel.stopResponse(model = model) },
     onSkillClicked = onSkillClicked,
+    skillCount = skillCount,
+    onMcpClicked = onMcpClicked,
+    mcpCount = mcpCount,
     navigateUp = navigateUp,
     modifier = modifier,
     composableBelowMessageList = composableBelowMessageList,
@@ -326,14 +338,36 @@ private fun ContextWindowIndicator(model: Model, viewModel: LlmChatViewModelBase
   val uiState by viewModel.uiState.collectAsState()
   val messages = uiState.messagesByModel[model.name] ?: return
 
-  val totalChars = messages
-    .filter { it.type == ChatMessageType.TEXT }
-    .sumOf { (it as? ChatMessageText)?.content?.length ?: 0 }
+  val textChars =
+    messages
+      .filter { it.type == ChatMessageType.TEXT }
+      .sumOf { (it as? ChatMessageText)?.content?.length ?: 0 }
+  val toolPanelChars =
+    messages
+      .filter { it.type == ChatMessageType.COLLAPSABLE_PROGRESS_PANEL }
+      .sumOf {
+        val panel = it as? com.google.ai.edge.gallery.ui.common.chat.ChatMessageCollapsableProgressPanel
+        if (panel == null) {
+          0
+        } else {
+          val dataChars = panel.customData?.toString()?.length ?: 0
+          val itemChars = panel.items.sumOf { item -> item.title.length + item.description.length }
+          val logChars = panel.logMessages.sumOf { log -> log.message.length + log.source.length }
+          dataChars + itemChars + logChars
+        }
+      }
+  val totalChars = textChars + toolPanelChars
 
-  val maxTokens = model.configValues[ConfigKeys.MAX_TOKENS.label]
-    ?.toString()?.toIntOrNull()?.takeIf { it > 0 }
-    ?: model.llmMaxToken.takeIf { it > 0 }
-    ?: 1024
+  val maxTokensFromConfig =
+    when (val raw = model.configValues[ConfigKeys.MAX_TOKENS.label]) {
+      is Int -> raw
+      is Float -> raw.toInt()
+      is Double -> raw.toInt()
+      is String -> raw.toFloatOrNull()?.toInt()
+      else -> null
+    }?.takeIf { it > 0 }
+
+  val maxTokens = maxTokensFromConfig ?: model.llmMaxToken.takeIf { it > 0 } ?: 1024
   val estimatedTokens = (totalChars / 4).coerceAtMost(maxTokens)
   val fraction = (estimatedTokens.toFloat() / maxTokens).coerceIn(0f, 1f)
   if (estimatedTokens == 0) return
