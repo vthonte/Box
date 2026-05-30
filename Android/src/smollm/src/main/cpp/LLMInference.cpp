@@ -6,15 +6,96 @@
 #include <sstream>
 #include <cmath>
 #include <algorithm>
+#include <limits>
 
 #define TAG "[offlineLLM-Cpp]"
 #define LOGi(...) __android_log_print(ANDROID_LOG_INFO, TAG, __VA_ARGS__)
 #define LOGe(...) __android_log_print(ANDROID_LOG_ERROR, TAG, __VA_ARGS__)
 
+namespace {
+std::vector<llama_token> smollm_tokenize(
+        const struct llama_vocab * vocab,
+        const std::string & text,
+        bool add_special,
+        bool parse_special) {
+    int n_tokens = static_cast<int>(text.length()) + 2 * static_cast<int>(add_special);
+    std::vector<llama_token> result(n_tokens);
+    n_tokens = llama_tokenize(
+            vocab,
+            text.data(),
+            static_cast<int32_t>(text.length()),
+            result.data(),
+            static_cast<int32_t>(result.size()),
+            add_special,
+            parse_special);
+    if (n_tokens == std::numeric_limits<int32_t>::min()) {
+        throw std::runtime_error("tokenization failed: overflow");
+    }
+    if (n_tokens < 0) {
+        result.resize(-n_tokens);
+        const int check = llama_tokenize(
+                vocab,
+                text.data(),
+                static_cast<int32_t>(text.length()),
+                result.data(),
+                static_cast<int32_t>(result.size()),
+                add_special,
+                parse_special);
+        if (check != -n_tokens) {
+            throw std::runtime_error("tokenization failed");
+        }
+    } else {
+        result.resize(n_tokens);
+    }
+    return result;
+}
+
+std::string smollm_token_to_piece(
+        const struct llama_vocab * vocab,
+        llama_token token,
+        bool special = true) {
+    std::string piece;
+    piece.resize(piece.capacity());
+    int n_chars = llama_token_to_piece(
+            vocab, token, &piece[0], static_cast<int32_t>(piece.size()), 0, special);
+    if (n_chars < 0) {
+        piece.resize(-n_chars);
+        const int check = llama_token_to_piece(
+                vocab, token, &piece[0], static_cast<int32_t>(piece.size()), 0, special);
+        if (check != -n_chars) {
+            throw std::runtime_error("token_to_piece failed");
+        }
+    } else {
+        piece.resize(n_chars);
+    }
+    return piece;
+}
+
+void smollm_batch_clear(struct llama_batch & batch) {
+    batch.n_tokens = 0;
+}
+
+void smollm_batch_add(
+        struct llama_batch & batch,
+        llama_token id,
+        llama_pos pos,
+        const std::vector<llama_seq_id> & seq_ids,
+        bool logits) {
+    batch.token[batch.n_tokens] = id;
+    batch.pos[batch.n_tokens] = pos;
+    batch.n_seq_id[batch.n_tokens] = static_cast<int32_t>(seq_ids.size());
+    for (size_t i = 0; i < seq_ids.size(); ++i) {
+        batch.seq_id[batch.n_tokens][i] = seq_ids[i];
+    }
+    batch.logits[batch.n_tokens] = logits;
+    batch.n_tokens++;
+}
+}
+
 void
 LLMInference::loadModel(const char *model_path, float minP, float temperature, float topP, int topK,
                         float repeatPenalty, bool storeChats, long contextSize,
-                        const char *chatTemplate, int nThreads, bool useMmap, bool useMlock) {
+                        const char *chatTemplate, int nThreads, bool useMmap, bool useMlock, int nGpuLayers) {
     LOGi("loading model with"
          "\n\tmodel_path = %s"
          "\n\tminP = %f"
@@ -29,6 +110,8 @@ LLMInference::loadModel(const char *model_path, float minP, float temperature, f
          "\n\tuseMlock = %d",
          model_path, minP, temperature, topP, topK, repeatPenalty, storeChats, contextSize,
          nThreads, useMmap, useMlock);
+
+    (void) nGpuLayers;
 
     ggml_backend_load_all();
 
@@ -131,7 +214,7 @@ LLMInference::startCompletion(const char *query) {
     
     std::string queryString(query);
     if (queryString.find("<turn|") != std::string::npos || queryString.find("<start_of_turn>") != std::string::npos) {
-         _promptTokens = common_tokenize(llama_model_get_vocab(_model), queryString, true, true);
+         _promptTokens = smollm_tokenize(llama_model_get_vocab(_model), queryString, true, true);
     } else {
         addChatMessage(query, "user");
 
@@ -163,10 +246,10 @@ LLMInference::startCompletion(const char *query) {
             }
             fallback << _assistantRole << ":";
             std::string prompt = fallback.str();
-            _promptTokens = common_tokenize(llama_model_get_vocab(_model), prompt, true, true);
+            _promptTokens = smollm_tokenize(llama_model_get_vocab(_model), prompt, true, true);
         } else {
             std::string prompt(_formattedMessages.begin(), _formattedMessages.begin() + new_len);
-            _promptTokens = common_tokenize(llama_model_get_vocab(_model), prompt, true, true);
+            _promptTokens = smollm_tokenize(llama_model_get_vocab(_model), prompt, true, true);
         }
     }
 
@@ -223,7 +306,7 @@ LLMInference::completionLoop() {
     // Check if token is EOG or if the text so far contains stop markers
     bool is_eog = llama_vocab_is_eog(llama_model_get_vocab(_model), _currToken);
     
-    std::string piece = common_token_to_piece(_ctx, _currToken, true);
+    std::string piece = smollm_token_to_piece(llama_model_get_vocab(_model), _currToken, true);
     
     // Check for stop sequences in the cumulative response
     static const std::vector<std::string> stop_sequences = {
@@ -293,10 +376,10 @@ LLMInference::benchModel(int pp, int tg, int pl, int nr) {
     int i, j;
     int nri;
     for (nri = 0; nri < nr; nri++) {
-        common_batch_clear(g_batch);
+        smollm_batch_clear(g_batch);
         const int n_tokens = pp;
         for (i = 0; i < n_tokens; i++) {
-            common_batch_add(g_batch, 1, i, { 0 }, false);
+            smollm_batch_add(g_batch, 1, i, { 0 }, false);
         }
         g_batch.logits[g_batch.n_tokens - 1] = true;
         llama_memory_clear(llama_get_memory(this->_ctx), false);
@@ -310,9 +393,9 @@ LLMInference::benchModel(int pp, int tg, int pl, int nr) {
         llama_memory_clear(llama_get_memory(this->_ctx), false);
         const auto t_tg_start = ggml_time_us();
         for (i = 0; i < tg; i++) {
-            common_batch_clear(g_batch);
+            smollm_batch_clear(g_batch);
             for (j = 0; j < pl; j++) {
-                common_batch_add(g_batch, 0, i, { j }, true);
+                smollm_batch_add(g_batch, 0, i, { j }, true);
             }
             if (llama_decode(this->_ctx, g_batch) != 0) {
                 LOGe("llama_decode() failed during text generation");

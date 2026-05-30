@@ -118,4 +118,14 @@ interface LlmModelHelper {
    * @param model the ongoing model response to be stopped.
    */
   fun stopResponse(model: Model)
+
+  /**
+   * Returns context tokens currently used for UI display.
+   *
+   * Default implementation is an estimate from visible text size for runtimes that do not expose
+   * a real context usage API.
+   */
+  fun getContextTokensUsed(model: Model, totalChars: Int): Int {
+    return (totalChars / 4).coerceAtLeast(0)
+  }
 }

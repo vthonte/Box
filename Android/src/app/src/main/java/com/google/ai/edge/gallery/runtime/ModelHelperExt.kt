@@ -16,12 +16,15 @@
 
 package com.google.ai.edge.gallery.runtime
 
+import android.util.Log
 import com.google.ai.edge.gallery.data.IMPORTS_DIR
 import com.google.ai.edge.gallery.data.Model
 import com.google.ai.edge.gallery.data.RuntimeType
 import com.google.ai.edge.gallery.engine.InferenceEngineType
 import com.google.ai.edge.gallery.runtime.aicore.AICoreModelHelper
 import com.google.ai.edge.gallery.ui.llmchat.LlmChatModelHelper
+
+private const val TAG = "ModelRuntimeRouter"
 
 val Model.runtimeHelper: LlmModelHelper
   get() {
@@ -36,7 +39,9 @@ val Model.runtimeHelper: LlmModelHelper
       downloadFileName
     }
     if (InferenceEngineType.fromModelPath(fileNameToCheck) == InferenceEngineType.LLAMA_CPP) {
+      Log.d(TAG, "Routing model '${name}' (${fileNameToCheck}) to llama.cpp")
       return LlamaCppModelHelper
     }
+    Log.d(TAG, "Routing model '${name}' (${fileNameToCheck}) to LiteRT")
     return LlmChatModelHelper
   }

@@ -55,10 +55,19 @@ function(build_library target_name)
             PUBLIC
             -ffunction-sections -fdata-sections
     )
-    target_link_libraries(
-            ${target_name}
-            android log llama common
-    )
+    # Newer llama.cpp exports `llama-common` instead of `common`.
+    # Keep fallback for older revisions.
+    if (TARGET llama-common)
+        target_link_libraries(
+                ${target_name}
+                android log llama llama-common
+        )
+    else()
+        target_link_libraries(
+                ${target_name}
+                android log llama common
+        )
+    endif()
     target_link_options(
             ${target_name}
             PRIVATE

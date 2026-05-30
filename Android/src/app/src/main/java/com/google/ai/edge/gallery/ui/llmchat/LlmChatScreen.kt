@@ -47,6 +47,7 @@ import com.google.ai.edge.gallery.data.Model
 import com.google.ai.edge.gallery.data.RuntimeType
 import com.google.ai.edge.gallery.data.Task
 import com.google.ai.edge.gallery.firebaseAnalytics
+import com.google.ai.edge.gallery.runtime.runtimeHelper
 import com.google.ai.edge.gallery.ui.common.chat.ChatMessageAudioClip
 import com.google.ai.edge.gallery.ui.common.chat.ChatMessageImage
 import com.google.ai.edge.gallery.ui.common.chat.ChatMessageText
@@ -368,9 +369,9 @@ private fun ContextWindowIndicator(model: Model, viewModel: LlmChatViewModelBase
     }?.takeIf { it > 0 }
 
   val maxTokens = maxTokensFromConfig ?: model.llmMaxToken.takeIf { it > 0 } ?: 1024
-  val estimatedTokens = (totalChars / 4).coerceAtMost(maxTokens)
-  val fraction = (estimatedTokens.toFloat() / maxTokens).coerceIn(0f, 1f)
-  if (estimatedTokens == 0) return
+  val contextTokensUsed = model.runtimeHelper.getContextTokensUsed(model, totalChars).coerceAtMost(maxTokens)
+  val fraction = (contextTokensUsed.toFloat() / maxTokens).coerceIn(0f, 1f)
+  if (contextTokensUsed == 0) return
 
   val color = when {
     fraction > 0.85f -> MaterialTheme.colorScheme.error
@@ -397,7 +398,7 @@ private fun ContextWindowIndicator(model: Model, viewModel: LlmChatViewModelBase
         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
       )
       Text(
-        "~$estimatedTokens / $maxTokens tokens",
+        "~$contextTokensUsed / $maxTokens tokens",
         style = MaterialTheme.typography.labelSmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
       )

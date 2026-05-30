@@ -51,6 +51,7 @@ import com.google.ai.edge.gallery.data.SOC
 import com.google.ai.edge.gallery.data.TMP_FILE_EXT
 import com.google.ai.edge.gallery.data.Task
 import com.google.ai.edge.gallery.data.ValueType
+import com.google.ai.edge.gallery.data.convertValueToTargetType
 import com.google.ai.edge.gallery.data.createLlmChatConfigs
 import com.google.ai.edge.gallery.proto.AccessTokenData
 import com.google.ai.edge.gallery.proto.ImportedModel
@@ -58,6 +59,7 @@ import com.google.ai.edge.gallery.proto.Theme
 import com.google.ai.edge.gallery.runtime.aicore.AICoreModelHelper
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
+import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
@@ -84,6 +86,7 @@ private const val ALLOWLIST_BASE_URL =
   "https://raw.githubusercontent.com/google-ai-edge/gallery/refs/heads/main/model_allowlists"
 
 private const val TEST_MODEL_ALLOW_LIST = ""
+private const val MODEL_CONFIG_SECRET_PREFIX = "model_config_"
 
 data class ModelInitializationStatus(
   val status: ModelInitializationStatusType,
@@ -274,8 +277,42 @@ constructor(
   }
 
   fun selectModel(model: Model) {
+    applySavedConfigValues(model)
     if (_uiState.value.selectedModel.name != model.name) {
       _uiState.update { _uiState.value.copy(selectedModel = model) }
+    }
+  }
+
+  fun persistModelConfigValues(model: Model) {
+    try {
+      val key = "$MODEL_CONFIG_SECRET_PREFIX${model.name}"
+      val json = Gson().toJson(model.configValues)
+      dataStoreRepository.saveSecret(key = key, value = json)
+    } catch (e: Exception) {
+      Log.e(TAG, "Failed to persist config values for model '${model.name}'", e)
+    }
+  }
+
+  fun applySavedConfigValues(model: Model) {
+    try {
+      val key = "$MODEL_CONFIG_SECRET_PREFIX${model.name}"
+      val raw = dataStoreRepository.readSecret(key) ?: return
+      if (raw.isBlank()) return
+
+      val mapType = object : TypeToken<Map<String, Any>>() {}.type
+      val saved: Map<String, Any> = Gson().fromJson(raw, mapType) ?: return
+      if (saved.isEmpty()) return
+
+      val merged = model.configValues.toMutableMap()
+      for (config in model.configs) {
+        val configKey = config.key.label
+        val savedValue = saved[configKey] ?: continue
+        merged[configKey] =
+          convertValueToTargetType(value = savedValue, valueType = config.valueType)
+      }
+      model.configValues = merged
+    } catch (e: Exception) {
+      Log.e(TAG, "Failed to apply saved config values for model '${model.name}'", e)
     }
   }
 
@@ -1169,6 +1206,7 @@ constructor(
         modelDownloadStatus[model.name] = getModelDownloadStatus(model = model)
         modelInstances[model.name] =
           ModelInitializationStatus(status = ModelInitializationStatusType.NOT_INITIALIZED)
+        applySavedConfigValues(model)
         checkedModelNames.add(model.name)
       }
     }
@@ -1193,6 +1231,7 @@ constructor(
             if (model.llmSupportMobileActions) {
         tasks.get(key = BuiltInTaskId.LLM_MOBILE_ACTIONS)?.models?.add(model)
       }
+      applySavedConfigValues(model)
 
       // Update status.
       modelDownloadStatus[model.name] =
@@ -1216,6 +1255,7 @@ constructor(
         )
         modelInstances[model.name] =
           ModelInitializationStatus(status = ModelInitializationStatusType.NOT_INITIALIZED)
+        applySavedConfigValues(model)
       }
     }
 

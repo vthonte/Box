@@ -27,7 +27,7 @@ import com.google.ai.edge.gallery.data.BuiltInTaskId
 import com.google.ai.edge.gallery.data.Category
 import com.google.ai.edge.gallery.data.Model
 import com.google.ai.edge.gallery.data.Task
-import com.google.ai.edge.gallery.ui.llmchat.LlmChatModelHelper
+import com.google.ai.edge.gallery.runtime.runtimeHelper
 import com.google.ai.edge.litertlm.Content
 import com.google.ai.edge.litertlm.Contents
 import com.google.ai.edge.litertlm.tool
@@ -71,7 +71,7 @@ class MobileActionsTask @Inject constructor() : CustomTask {
     curActions.clear()
 
     // Expected to get the current time on user's device.
-    LlmChatModelHelper.initialize(
+    model.runtimeHelper.initialize(
       context = context,
       model = model,
       supportImage = false,
@@ -79,6 +79,7 @@ class MobileActionsTask @Inject constructor() : CustomTask {
       onDone = onDone,
       systemInstruction = getSystemPrompt(),
       tools = tools,
+      coroutineScope = coroutineScope,
     )
   }
 
@@ -89,7 +90,7 @@ class MobileActionsTask @Inject constructor() : CustomTask {
     onDone: () -> Unit,
   ) {
     curActions.clear()
-    LlmChatModelHelper.cleanUp(model = model, onDone = onDone)
+    model.runtimeHelper.cleanUp(model = model, onDone = onDone)
   }
 
   @Composable

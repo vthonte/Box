@@ -31,7 +31,7 @@ import com.google.ai.edge.gallery.data.Model
 import com.google.ai.edge.gallery.data.Task
 import com.google.ai.edge.gallery.proto.McpServers
 import com.google.ai.edge.gallery.proto.Skill
-import com.google.ai.edge.gallery.ui.llmchat.LlmChatModelHelper
+import com.google.ai.edge.gallery.runtime.runtimeHelper
 import com.google.ai.edge.litertlm.Contents
 import com.google.ai.edge.litertlm.tool
 import dagger.Module
@@ -205,7 +205,7 @@ class AgentChatTask @Inject constructor() : CustomTask {
           toolsPrompt = toolsPrompt,
         )
 
-      LlmChatModelHelper.initialize(
+      model.runtimeHelper.initialize(
         context = context,
         model = model,
         supportImage = true,
@@ -214,6 +214,7 @@ class AgentChatTask @Inject constructor() : CustomTask {
         systemInstruction = finalSystemInstruction,
         tools = listOf(tool(agentTools)),
         enableConversationConstrainedDecoding = true,
+        coroutineScope = coroutineScope,
       )
     }
   }
@@ -224,7 +225,7 @@ class AgentChatTask @Inject constructor() : CustomTask {
     model: Model,
     onDone: () -> Unit,
   ) {
-    LlmChatModelHelper.cleanUp(model = model, onDone = onDone)
+    model.runtimeHelper.cleanUp(model = model, onDone = onDone)
   }
 
   @Composable

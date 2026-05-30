@@ -43,6 +43,10 @@ class LlamaCppEngine {
     var isGenerating = false
         private set
 
+    @Volatile
+    var lastContextLengthUsed: Int = 0
+        private set
+
     data class GenerationResult(
         val response: String,
         val tokensPerSecond: Float,
@@ -212,12 +216,13 @@ class LlamaCppEngine {
 
                     withContext(Dispatchers.Main) {
                         isGenerating = false
+                        lastContextLengthUsed = instance.getContextLengthUsed()
                         onComplete(
                             GenerationResult(
                                 response = finalResponse,
                                 tokensPerSecond = instance.getResponseGenerationSpeed(),
                                 durationSeconds = duration.inWholeSeconds.toInt(),
-                                contextLengthUsed = instance.getContextLengthUsed(),
+                                contextLengthUsed = lastContextLengthUsed,
                             )
                         )
                     }
