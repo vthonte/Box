@@ -7,12 +7,32 @@
 #include <cmath>
 #include <algorithm>
 #include <limits>
+#include <cerrno>
+#include <cstring>
+#include <sched.h>
 
 #define TAG "[offlineLLM-Cpp]"
 #define LOGi(...) __android_log_print(ANDROID_LOG_INFO, TAG, __VA_ARGS__)
 #define LOGe(...) __android_log_print(ANDROID_LOG_ERROR, TAG, __VA_ARGS__)
 
 namespace {
+void pinCurrentThreadToCores0to3() {
+#if defined(__linux__)
+    cpu_set_t set;
+    CPU_ZERO(&set);
+    CPU_SET(0, &set);
+    CPU_SET(1, &set);
+    CPU_SET(2, &set);
+    CPU_SET(3, &set);
+    const int rc = sched_setaffinity(0, sizeof(set), &set);
+    if (rc != 0) {
+        LOGe("sched_setaffinity failed: %s", std::strerror(errno));
+    } else {
+        LOGi("Pinned current thread to CPU cores 0-3");
+    }
+#endif
+}
+
 std::vector<llama_token> smollm_tokenize(
         const struct llama_vocab * vocab,
         const std::string & text,
@@ -96,6 +116,8 @@ void
 LLMInference::loadModel(const char *model_path, float minP, float temperature, float topP, int topK,
                         float repeatPenalty, bool storeChats, long contextSize,
                         const char *chatTemplate, int nThreads, bool useMmap, bool useMlock, int nGpuLayers) {
+    pinCurrentThreadToCores0to3();
+
     LOGi("loading model with"
          "\n\tmodel_path = %s"
          "\n\tminP = %f"
@@ -128,6 +150,9 @@ LLMInference::loadModel(const char *model_path, float minP, float temperature, f
     ctx_params.n_ctx = contextSize;
     ctx_params.n_batch = contextSize;
     ctx_params.n_threads = nThreads;
+    // Force lower-memory KV cache format.
+    ctx_params.type_k = GGML_TYPE_Q4_0;
+    ctx_params.type_v = GGML_TYPE_Q4_0;
     ctx_params.no_perf = true;
     _ctx = llama_init_from_model(_model, ctx_params);
     if (!_ctx) {
@@ -290,6 +315,8 @@ LLMInference::_isValidUtf8(const char *response) {
 
 std::string
 LLMInference::completionLoop() {
+    pinCurrentThreadToCores0to3();
+
     uint32_t contextSize = llama_n_ctx(_ctx);
     _nCtxUsed = llama_memory_seq_pos_max(llama_get_memory(_ctx), 0) + 1;
     if (_nCtxUsed + _batch->n_tokens > contextSize) {

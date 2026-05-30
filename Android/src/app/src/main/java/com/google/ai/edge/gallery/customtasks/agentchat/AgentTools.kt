@@ -813,7 +813,7 @@ open class AgentTools() : ToolSet {
     val root =
       doc.selectFirst("article, main, [role=main], .post-content, .article-content, .entry-content")
         ?: doc.body()
-    val blocks = root.children()
+    val blocks = root.select("h1,h2,h3,h4,h5,h6,p,ul,ol,pre,blockquote")
     val out = StringBuilder()
 
     for (el in blocks) {
@@ -824,9 +824,9 @@ open class AgentTools() : ToolSet {
         "h4" -> appendBlock(out, "#### ${inlineToMarkdown(el)}")
         "h5" -> appendBlock(out, "##### ${inlineToMarkdown(el)}")
         "h6" -> appendBlock(out, "###### ${inlineToMarkdown(el)}")
-        "p", "div", "section" -> {
+        "p" -> {
           val text = inlineToMarkdown(el).trim()
-          if (text.length >= 40 || el.select("a, code, strong, em, li").isNotEmpty()) {
+          if (text.isNotBlank()) {
             appendBlock(out, text)
           }
         }
@@ -871,7 +871,10 @@ open class AgentTools() : ToolSet {
 
   private fun inlineToMarkdown(el: Element): String {
     val clone = el.clone()
-    clone.select("br").append("\\n")
+    clone.select("br").forEach { br ->
+      br.after("\\n")
+      br.remove()
+    }
     clone.select("code").forEach { code -> code.text("`${code.text().trim()}`") }
     clone.select("strong, b").forEach { n -> n.text("**${n.text().trim()}**") }
     clone.select("em, i").forEach { n -> n.text("*${n.text().trim()}*") }

@@ -52,6 +52,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.material.icons.rounded.Refresh
+import androidx.compose.material.icons.rounded.Stop
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -528,7 +529,19 @@ fun ChatPanel(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(8.dp),
               ) {
-                RotationalLoader(size = 32.dp)
+                Row(
+                  verticalAlignment = Alignment.CenterVertically,
+                  horizontalArrangement = Arrangement.spacedBy(10.dp),
+                ) {
+                  RotationalLoader(size = 32.dp)
+                  if (uiState.inProgress || uiState.preparing) {
+                    MessageActionButton(
+                      label = "Stop",
+                      icon = Icons.Rounded.Stop,
+                      onClick = onStopButtonClicked,
+                    )
+                  }
+                }
                 Text(
                   stringResource(R.string.aichat_initializing_title),
                   style =

@@ -80,6 +80,13 @@ android {
   }
 }
 
+androidComponents {
+  onVariants(selector().all()) { variant ->
+    variant.packaging.jniLibs.excludes.add("**/libOpenCL.so")
+    variant.packaging.jniLibs.excludes.add("**/libOpenCL_adreno.so")
+  }
+}
+
 dependencies {
   implementation(libs.androidx.core.ktx)
   implementation(libs.androidx.lifecycle.runtime.ktx)

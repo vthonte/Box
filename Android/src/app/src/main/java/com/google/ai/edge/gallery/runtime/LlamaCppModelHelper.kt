@@ -57,6 +57,20 @@ object LlamaCppModelHelper : LlmModelHelper {
         Log.d(TAG, "Initializing llama.cpp engine for: $modelPath")
         val systemPrompt = extractSystemPrompt(systemInstruction)
         Log.d(TAG, "llama.cpp system prompt length: ${systemPrompt.length}")
+        val toolCallContract =
+            if (tools.isNotEmpty()) {
+                """
+                TOOL CALL FORMAT (MANDATORY):
+                When you need a tool, output ONLY a single JSON object:
+                {"toolName":"<exact_tool_name>","input":{...}}
+                Do not wrap JSON in markdown fences.
+                Do not include any extra text before or after this JSON.
+                """.trimIndent()
+            } else {
+                ""
+            }
+        val finalSystemPrompt =
+            listOf(systemPrompt, toolCallContract).filter { it.isNotBlank() }.joinToString("\n\n")
 
         val engine = LlamaCppEngine()
         engines[model.name] = engine
@@ -65,13 +79,16 @@ object LlamaCppModelHelper : LlmModelHelper {
             temperature = temperature,
             topP = topP,
             topK = topK,
-            numThreads = Runtime.getRuntime().availableProcessors().coerceAtMost(8),
+            numThreads =
+                (Runtime.getRuntime().availableProcessors() / 2)
+                    .coerceAtLeast(1)
+                    .coerceAtMost(4),
         )
 
         engine.loadModel(
             modelPath = modelPath,
             params = params,
-            systemPrompt = systemPrompt,
+            systemPrompt = finalSystemPrompt,
             onSuccess = {
                 // Store a marker so the ViewModel knows the model is ready
                 model.instance = engine
@@ -190,63 +207,70 @@ object LlamaCppModelHelper : LlmModelHelper {
             return
         }
 
-        // Tool-enabled flow for llama.cpp:
-        // 1) Generate once.
-        // 2) If model output contains a tool-call JSON, execute it through ToolManager.
-        // 3) Run a second generation pass with tool result context and stream that to UI.
-        val firstPassText = StringBuilder()
+        runToolLoop(
+            engine = engine,
+            toolManager = toolManager,
+            userInput = input,
+            resultListener = resultListener,
+            onError = onError,
+            stepsLeft = 4,
+        )
+    }
+
+    private fun runToolLoop(
+        engine: LlamaCppEngine,
+        toolManager: ToolManager,
+        userInput: String,
+        resultListener: ResultListener,
+        onError: (message: String) -> Unit,
+        stepsLeft: Int,
+    ) {
+        val passText = StringBuilder()
         engine.generateResponse(
-            query = input,
-            onToken = { partialResponse ->
-                firstPassText.append(partialResponse)
-            },
+            query = userInput,
+            onToken = { partialResponse -> passText.append(partialResponse) },
             onComplete = { result ->
-                val fullText = if (result.response.isNotBlank()) result.response else firstPassText.toString()
+                val fullText = if (result.response.isNotBlank()) result.response else passText.toString()
                 val toolCall = parseToolCall(fullText)
-                if (toolCall == null) {
+                if (toolCall == null || stepsLeft <= 0) {
                     if (fullText.isNotBlank()) {
                         resultListener(fullText, false, null)
                     }
                     resultListener("", true, null)
-                } else {
-                    val toolResult: String = try {
-                        toolManager.execute(toolCall.first, toolCall.second).toString()
-                    } catch (e: Exception) {
-                        Log.e(TAG, "Tool execution failed for '${toolCall.first}'", e)
-                        """{"error":"${e.message ?: "tool execution failed"}"}"""
-                    }
-
-                    val followup =
-                        """
-                        Tool call executed.
-                        Tool name: ${toolCall.first}
-                        Tool result JSON:
-                        $toolResult
-
-                        Now provide the final user-facing answer based on this result.
-                        """.trimIndent()
-
-                    engine.generateResponse(
-                        query = followup,
-                        onToken = { partialResponse ->
-                            resultListener(partialResponse, false, null)
-                        },
-                        onComplete = {
-                            resultListener("", true, null)
-                        },
-                        onCancelled = {
-                            resultListener("", true, null)
-                        },
-                        onError = { e ->
-                            Log.e(TAG, "Follow-up inference error", e)
-                            onError(e.message ?: "Inference error")
-                        },
-                    )
+                    return@generateResponse
                 }
+
+                // Explicit UI signal in GGUF flow so users can see tool activity immediately.
+                resultListener("Running tool: ${toolCall.first}\n", false, null)
+
+                val toolResult: String = try {
+                    toolManager.execute(toolCall.first, toolCall.second).toString()
+                } catch (e: Exception) {
+                    Log.e(TAG, "Tool execution failed for '${toolCall.first}'", e)
+                    """{"error":"${e.message ?: "tool execution failed"}"}"""
+                }
+
+                val followup =
+                    """
+                    Tool call executed.
+                    Tool name: ${toolCall.first}
+                    Tool result JSON:
+                    $toolResult
+
+                    If more tools are needed, output exactly one tool-call JSON object.
+                    Otherwise provide the final user-facing answer.
+                    """.trimIndent()
+
+                runToolLoop(
+                    engine = engine,
+                    toolManager = toolManager,
+                    userInput = followup,
+                    resultListener = resultListener,
+                    onError = onError,
+                    stepsLeft = stepsLeft - 1,
+                )
             },
-            onCancelled = {
-                resultListener("", true, null)
-            },
+            onCancelled = { resultListener("", true, null) },
             onError = { e ->
                 Log.e(TAG, "Inference error", e)
                 onError(e.message ?: "Inference error")
@@ -263,13 +287,25 @@ object LlamaCppModelHelper : LlmModelHelper {
                 val toolName = when {
                     obj.has("toolName") -> obj.get("toolName").asString
                     obj.has("name") -> obj.get("name").asString
+                    obj.has("tool") -> obj.get("tool").asString
+                    obj.has("function") -> obj.get("function").asString
                     else -> null
                 } ?: continue
 
                 val input = when {
                     obj.has("input") && obj.get("input").isJsonObject -> obj.getAsJsonObject("input")
                     obj.has("arguments") && obj.get("arguments").isJsonObject -> obj.getAsJsonObject("arguments")
+                    obj.has("args") && obj.get("args").isJsonObject -> obj.getAsJsonObject("args")
                     else -> JsonObject()
+                }
+                if (input.size() == 0) {
+                    // Compatibility path: treat all non-name keys as input args.
+                    for ((key, value) in obj.entrySet()) {
+                        if (key == "toolName" || key == "name" || key == "tool" || key == "function") {
+                            continue
+                        }
+                        input.add(key, value)
+                    }
                 }
                 return toolName to input
             } catch (_: Exception) {

@@ -60,8 +60,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import com.google.ai.edge.gallery.R
 
@@ -76,6 +78,7 @@ fun MessageBodyCollapsableProgressPanel(message: ChatMessageCollapsableProgressP
   var isExpanded by remember { mutableStateOf(false) }
   var showLogsViewer by remember { mutableStateOf(false) }
   var showDataViewer by remember { mutableStateOf(false) }
+  val clipboardManager = LocalClipboardManager.current
 
   Column(
     modifier =
@@ -233,15 +236,21 @@ fun MessageBodyCollapsableProgressPanel(message: ChatMessageCollapsableProgressP
   }
 
   if (showDataViewer && message.customData is String) {
+    val customDataText = message.customData as String
     AlertDialog(
       onDismissRequest = { showDataViewer = false },
       title = { Text(stringResource(R.string.data_seen_by_model)) },
       text = {
         Text(
-          text = message.customData as String,
+          text = customDataText,
           style = MaterialTheme.typography.bodySmall,
           modifier = Modifier.heightIn(max = 360.dp).verticalScroll(rememberScrollState()),
         )
+      },
+      dismissButton = {
+        Button(onClick = { clipboardManager.setText(AnnotatedString(customDataText)) }) {
+          Text("Copy")
+        }
       },
       confirmButton = {
         Button(onClick = { showDataViewer = false }) { Text(stringResource(R.string.close)) }

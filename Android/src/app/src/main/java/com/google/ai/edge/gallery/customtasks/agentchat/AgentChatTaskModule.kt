@@ -272,13 +272,9 @@ fun injectSkillsAndMcpTools(
       }
 
   val systemPrompt =
-    if (selectedSkillsNamesAndDescriptions.isBlank() && toolsPrompt.isBlank()) {
-      ""
-    } else {
-      baseSystemPrompt
-        .replace("___SKILLS___", selectedSkillsNamesAndDescriptions)
-        .replace("___TOOLS___", toolsPrompt)
-    }
+    baseSystemPrompt
+      .replace("___SKILLS___", selectedSkillsNamesAndDescriptions)
+      .replace("___TOOLS___", toolsPrompt)
   Log.d(TAG, "System prompt:\n$systemPrompt")
   return Contents.of(systemPrompt)
 }

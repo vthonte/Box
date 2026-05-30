@@ -29,6 +29,7 @@ import androidx.compose.material.icons.outlined.LocalLibrary
 import androidx.compose.material.icons.outlined.Map
 import androidx.compose.material.icons.outlined.Password
 import androidx.compose.material.icons.outlined.QrCode
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.SentimentVerySatisfied
 import androidx.compose.material.icons.outlined.Tag
 import androidx.compose.material.icons.outlined.Translate
@@ -112,6 +113,12 @@ val TRYOUT_CHIPS: List<SkillTryOutChip> =
       label = "Query Wikipedia",
       prompt = "Check Wikipedia about Oscars 2026. Tell me who won the best picture.",
       skillName = "query-wikipedia",
+    ),
+    SkillTryOutChip(
+      icon = Icons.Outlined.Search,
+      label = "Web Research",
+      prompt = "Research best movies of 2026 and summarize with sources.",
+      skillName = "web-research",
     ),
     SkillTryOutChip(
       icon = Icons.Outlined.QrCode,

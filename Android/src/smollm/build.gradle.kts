@@ -3,6 +3,14 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+val localEnableAdrenoOpenCl =
+    providers.gradleProperty("localEnableAdrenoOpenCl").orNull?.toBooleanStrictOrNull() == true
+val localAbiOnlyArm64 =
+    providers.gradleProperty("localAbiOnlyArm64").orNull?.toBooleanStrictOrNull() == true
+val openClIncludeDir = file("src/main/cpp/third_party/opencl/include").absolutePath
+val openClLibDir = file("src/main/cpp/third_party/opencl/lib/arm64-v8a").absolutePath
+val openClLibPath = file("src/main/cpp/third_party/opencl/lib/arm64-v8a/libOpenCL.so").absolutePath
+
 android {
     namespace = "com.google.ai.edge.gallery.smollm"
     compileSdk = 36
@@ -10,6 +18,14 @@ android {
 
     defaultConfig {
         minSdk = 35
+        ndk {
+            abiFilters +=
+                if (localAbiOnlyArm64) {
+                    listOf("arm64-v8a")
+                } else {
+                    listOf("arm64-v8a", "armeabi-v7a")
+                }
+        }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         externalNativeBuild {
@@ -21,6 +37,18 @@ android {
                 arguments += "-DLLAMA_BUILD_COMMON=ON"
                 arguments += "-DLLAMA_CURL=OFF"
                 arguments += "-DGGML_LLAMAFILE=OFF"
+                arguments += "-DLLAMA_OPENSSL=OFF"
+                arguments += "-DLLAMA_BUILD_UI=OFF"
+                arguments += "-DGGML_SCHED_NO_REALLOC=ON"
+                if (localEnableAdrenoOpenCl) {
+                    arguments += "-DGGML_OPENCL=ON"
+                    arguments += "-DGGML_OPENCL_USE_ADRENO_KERNELS=ON"
+                    arguments += "-DGGML_OPENCL_ADRENO_XMEM_GEMM=ON"
+                    arguments += "-DOpenCL_INCLUDE_DIR=$openClIncludeDir"
+                    arguments += "-DOpenCL_LIBRARY=$openClLibPath"
+                    arguments += "-DOpenCL_LIBRARIES=$openClLibPath"
+                    arguments += "-DOpenCL_LIBRARY_DIR=$openClLibDir"
+                }
             }
         }
     }
