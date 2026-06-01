@@ -1,5 +1,6 @@
 package com.google.ai.edge.gallery.engine
 
+import com.google.ai.edge.gallery.runtime.runWithInferencePriorityHints
 import com.jegly.offlineLLM.smollm.SmolLM
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -72,7 +73,9 @@ class LlamaCppEngine {
 
             loadJob = CoroutineScope(Dispatchers.Default).launch {
                 try {
-                    instance.load(modelPath, params)
+                    runWithInferencePriorityHints {
+                        instance.load(modelPath, params)
+                    }
 
                     if (systemPrompt.isNotBlank()) {
                         instance.addSystemPrompt(systemPrompt)
@@ -124,6 +127,7 @@ class LlamaCppEngine {
         stateLock.withLock {
             generationJob?.cancel()
             isGenerating = false
+            isModelLoaded.set(false)
 
             CoroutineScope(Dispatchers.Default).launch {
                 try {
@@ -131,7 +135,9 @@ class LlamaCppEngine {
                     // but the OS keeps model pages in memory so reload is fast
                     instance.close()
                     instance = SmolLM()
-                    instance.load(modelPath, params)
+                    runWithInferencePriorityHints {
+                        instance.load(modelPath, params)
+                    }
 
                     if (systemPrompt.isNotBlank()) {
                         instance.addSystemPrompt(systemPrompt)
@@ -181,9 +187,10 @@ class LlamaCppEngine {
                     var shouldStop = false
 
                     val duration = measureTime {
-                        instance.getResponseAsFlow(query)
-                            .takeWhile { !shouldStop }
-                            .collect { piece ->
+                        runWithInferencePriorityHints {
+                            instance.getResponseAsFlow(query)
+                                .takeWhile { !shouldStop }
+                                .collect { piece ->
                                 fullResponse += piece
 
                                 // Detect the earliest stop sequence and truncate
@@ -204,10 +211,11 @@ class LlamaCppEngine {
                                 } else ""
                                 lastDisplayed = displayResponse
 
-                                if (delta.isNotEmpty()) {
-                                    withContext(Dispatchers.Main) { onToken(delta) }
+                                    if (delta.isNotEmpty()) {
+                                        withContext(Dispatchers.Main) { onToken(delta) }
+                                    }
                                 }
-                            }
+                        }
                     }
 
                     val finalResponse = cleanModelOutput(fullResponse, isFinal = true).ifBlank {

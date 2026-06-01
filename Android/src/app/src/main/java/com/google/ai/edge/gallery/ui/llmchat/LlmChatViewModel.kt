@@ -222,6 +222,17 @@ open class LlmChatViewModelBase() : ChatViewModel() {
   ) {
     val accelerator = model.getStringConfigValue(key = ConfigKeys.ACCELERATOR, defaultValue = "")
     viewModelScope.launch(Dispatchers.Default) {
+      // Guard against reset race: wait for reset to fully complete before sending.
+      var resetWaitMs = 0
+      while (uiState.value.isResettingSession) {
+        delay(50)
+        resetWaitMs += 50
+        if (resetWaitMs >= 15000) {
+          onError("Model is resetting. Please try again.")
+          return@launch
+        }
+      }
+
       setInProgress(true)
       setPreparing(true)
 
@@ -234,8 +245,22 @@ open class LlmChatViewModelBase() : ChatViewModel() {
       addMessage(model = model, message = ChatMessageLoading(accelerator = accelerator))
 
       // Wait for instance to be initialized.
+      var waitMs = 0
       while (model.instance == null) {
         delay(100)
+        waitMs += 100
+        if (uiState.value.isResettingSession) {
+          // If reset restarts while waiting, pause until it is done.
+          while (uiState.value.isResettingSession) {
+            delay(50)
+          }
+        }
+        if (waitMs >= 20000) {
+          setInProgress(false)
+          setPreparing(false)
+          onError("Model not ready yet. Please try again.")
+          return@launch
+        }
       }
       delay(500)
 

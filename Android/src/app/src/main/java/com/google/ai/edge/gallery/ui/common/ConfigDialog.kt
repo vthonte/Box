@@ -334,6 +334,18 @@ fun getTextFieldDisplayValue(valueType: ValueType, value: Float): String {
   }
 }
 
+private fun readSliderValue(values: SnapshotStateMap<String, Any>, key: String, fallback: Float): Float {
+  val raw = values[key] ?: return fallback
+  return when (raw) {
+    is Float -> raw
+    is Int -> raw.toFloat()
+    is Double -> raw.toFloat()
+    is Long -> raw.toFloat()
+    is String -> raw.toFloatOrNull() ?: fallback
+    else -> fallback
+  }
+}
+
 /**
  * Composable function to display a number slider with an associated text input field.
  *
@@ -358,17 +370,16 @@ fun NumberSliderRow(config: NumberSliderConfig, values: SnapshotStateMap<String,
       // value or out of the slider range, temporary while user is still editing the text.
       var textFieldDisplayValue by remember {
         mutableStateOf(
-          getTextFieldDisplayValue(config.valueType, values[config.key.label] as Float)
+          getTextFieldDisplayValue(
+            config.valueType,
+            readSliderValue(values, config.key.label, config.sliderMin),
+          )
         )
       }
 
       // Number slider.
       val sliderValue =
-        try {
-          values[config.key.label] as Float
-        } catch (e: Exception) {
-          0f
-        }
+        readSliderValue(values, config.key.label, config.sliderMin)
 
       Text(
         text = getTextFieldDisplayValue(config.valueType, config.sliderMin),
@@ -398,7 +409,10 @@ fun NumberSliderRow(config: NumberSliderConfig, values: SnapshotStateMap<String,
             // When leaving focus, display the internal value so that any invalid value is cleared.
             if (!isFocused) {
               textFieldDisplayValue =
-                getTextFieldDisplayValue(config.valueType, values[config.key.label] as Float)
+                getTextFieldDisplayValue(
+                  config.valueType,
+                  readSliderValue(values, config.key.label, config.sliderMin),
+                )
             }
           },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -434,11 +448,7 @@ fun NumberSliderRow(config: NumberSliderConfig, values: SnapshotStateMap<String,
 
     if (config.key == ConfigKeys.MAX_TOKENS) {
       val sliderValue =
-        try {
-          values[config.key.label] as Float
-        } catch (e: Exception) {
-          0f
-        }
+        readSliderValue(values, config.key.label, 0f)
       if (sliderValue >= 10000f) {
         Text(
           text = stringResource(R.string.max_tokens_warning_message),

@@ -21,6 +21,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.DecelerateInterpolator
@@ -88,6 +89,8 @@ class MainActivity : FragmentActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+
+    ProcessDeathTracker.onAppCreate(this)
 
     // Box: Initialize biometric authentication, app lock, and DB encryption
     biometricHelper = BiometricHelper(this)
@@ -168,6 +171,15 @@ class MainActivity : FragmentActivity() {
     }
     // Keep the screen on while the app is running for a better demo experience.
     window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+    ProcessDeathTracker.consumeReport(this)?.let { report ->
+      SecurityAuditLog.log(this, "PREVIOUS_RUN_UNEXPECTED: $report")
+      Toast.makeText(
+        this,
+        "Previous run ended unexpectedly. Try switching to CPU mode or close other apps to free RAM. Check last_process_report.txt in app files.",
+        Toast.LENGTH_LONG,
+      ).show()
+    }
   }
 
   override fun onNewIntent(intent: Intent) {
@@ -215,6 +227,11 @@ class MainActivity : FragmentActivity() {
       )
     }
 
+  }
+
+  override fun onStop() {
+    super.onStop()
+    ProcessDeathTracker.onAppStoppedNormally(this)
   }
 
   companion object {

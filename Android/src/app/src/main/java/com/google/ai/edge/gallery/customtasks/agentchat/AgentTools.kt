@@ -30,6 +30,7 @@ import com.google.ai.edge.gallery.common.LOCAL_URL_BASE
 import com.google.ai.edge.gallery.common.PermissionResult
 import com.google.ai.edge.gallery.common.SkillProgressAgentAction
 import com.google.ai.edge.gallery.firebaseAnalytics
+import com.google.ai.edge.gallery.proto.Skill
 import com.google.ai.edge.litertlm.Tool
 import com.google.ai.edge.litertlm.ToolParam
 import com.google.ai.edge.litertlm.ToolSet
@@ -57,12 +58,15 @@ private const val TAG = "AGAgentTools"
 private const val WEB_SETTINGS_PREFS = "box_settings"
 private const val WEB_PAGE_CHAR_LIMIT_KEY = "web_page_char_limit"
 private const val DEFAULT_WEB_PAGE_CHAR_LIMIT = 8000
+private const val WEB_SEARCH_RESULT_LIMIT_KEY = "web_search_result_limit"
+private const val DEFAULT_WEB_SEARCH_RESULT_LIMIT = 5
 
 open class AgentTools() : ToolSet {
   lateinit var context: Context
   lateinit var skillManagerViewModel: SkillManagerViewModel
   lateinit var mcpManagerViewModel: McpManagerViewModel
   lateinit var taskId: String
+  var selectedSkillsSnapshot: List<Skill> = emptyList()
 
   private val _actionChannel = Channel<AgentAction>(Channel.UNLIMITED)
   val actionChannel: ReceiveChannel<AgentAction> = _actionChannel
@@ -75,6 +79,7 @@ open class AgentTools() : ToolSet {
     @ToolParam(description = "The name of the skill to load.") skillName: String
   ): Map<String, String> {
     return runBlocking(Dispatchers.Default) {
+      Log.d(TAG, "loadSkill invoked. requestedSkill='$skillName'")
       val skills = skillManagerViewModel.getSelectedSkills()
       val skill = skills.find { it.name == skillName.trim() }
       val skillContent =
@@ -84,6 +89,11 @@ open class AgentTools() : ToolSet {
           "Skill not found"
         }
       Log.d(TAG, "load skill. Skill content:\n$skillContent")
+      if (skill != null) {
+        Log.d(TAG, "loadSkill success. skill='${skill.name}'")
+      } else {
+        Log.d(TAG, "loadSkill failed. skill not found among selected skills")
+      }
       if (skill != null) {
         _actionChannel.send(
           SkillProgressAgentAction(
@@ -400,10 +410,11 @@ open class AgentTools() : ToolSet {
   )
   fun searchWeb(
     @ToolParam(description = "The search query.") query: String,
-    @ToolParam(description = "Maximum number of results to return. Default is 5.") maxResults: String,
+    @ToolParam(description = "Deprecated: result limit is controlled by app Settings.") maxResults: String,
   ): Map<String, String> {
     return runBlocking(Dispatchers.IO) {
       try {
+        Log.d(TAG, "searchWeb called. query='$query' maxResults='$maxResults'")
         _actionChannel.send(
           SkillProgressAgentAction(
             label = "Searching web",
@@ -412,7 +423,11 @@ open class AgentTools() : ToolSet {
             addItemDescription = "Query: $query",
           )
         )
-        val limit = maxResults.toIntOrNull()?.coerceIn(1, 10) ?: 5
+        val limit =
+          context
+            .getSharedPreferences(WEB_SETTINGS_PREFS, Context.MODE_PRIVATE)
+            .getInt(WEB_SEARCH_RESULT_LIMIT_KEY, DEFAULT_WEB_SEARCH_RESULT_LIMIT)
+            .coerceIn(1, 10)
         val encodedQuery = URLEncoder.encode(query, "UTF-8")
         val fetchers =
           listOf<() -> String>(
@@ -435,6 +450,7 @@ open class AgentTools() : ToolSet {
             .orEmpty()
             .take(limit)
         if (results.isEmpty()) {
+          Log.d(TAG, "searchWeb completed with no results for query='$query'")
           _actionChannel.send(
             SkillProgressAgentAction(
               label = "No web results found",
@@ -468,6 +484,7 @@ open class AgentTools() : ToolSet {
             customData = resultsJsonString,
           )
         )
+        Log.d(TAG, "searchWeb completed with ${results.size} result(s)")
         mapOf("status" to "succeeded", "results_json" to resultsJsonString)
       } catch (e: Exception) {
         Log.e(TAG, "Error searching web", e)
@@ -504,13 +521,13 @@ open class AgentTools() : ToolSet {
             addItemDescription = url,
           )
         )
-        val requestedLimit = maxChars.toIntOrNull()?.coerceIn(1000, 20000) ?: DEFAULT_WEB_PAGE_CHAR_LIMIT
         val settingsLimit =
           context
             .getSharedPreferences(WEB_SETTINGS_PREFS, Context.MODE_PRIVATE)
             .getInt(WEB_PAGE_CHAR_LIMIT_KEY, DEFAULT_WEB_PAGE_CHAR_LIMIT)
             .coerceIn(1000, 20000)
-        val limit = minOf(requestedLimit, settingsLimit)
+        // User setting is the single source of truth; ignore model-provided maxChars.
+        val limit = settingsLimit
         val html = httpGet(url)
         val doc = Jsoup.parse(html, url)
         val title = doc.title().trim()
@@ -771,6 +788,9 @@ open class AgentTools() : ToolSet {
   private fun cleanSnippet(text: String): String {
     return text
       .replace(Regex("\\s+"), " ")
+      // Remove leading path/url fragments that DDG sometimes prepends to snippets.
+      .replace(Regex("^\\s*/[\\w\\-./%]+\\s+"), "")
+      .replace(Regex("^\\s*[\\w.-]+\\.[a-z]{2,}/[\\w\\-./%]+\\s+", RegexOption.IGNORE_CASE), "")
       .replace(Regex("^\\s*[-|:•]+\\s*"), "")
       .trim()
       .take(280)
@@ -879,16 +899,14 @@ open class AgentTools() : ToolSet {
     clone.select("strong, b").forEach { n -> n.text("**${n.text().trim()}**") }
     clone.select("em, i").forEach { n -> n.text("*${n.text().trim()}*") }
     clone.select("a[href]").forEach { a ->
-      // Keep anchor text only; drop URLs to preserve model context window.
-      val text = a.text().trim().ifEmpty { "" }
-      a.text(text)
+      // Drop link target but keep full visible/link inner content (title/date text, nested spans, etc).
+      a.removeAttr("href")
+      a.unwrap()
     }
     return clone
       .text()
       .replace("\\n", "\n")
-      .replace(Regex("https?://\\S+"), "")
-      .replace(Regex("www\\.\\S+"), "")
-      .replace(Regex("[ \\t\\x0B\\f\\r]+"), " ")
+      // Remove URL tokens only; preserve surrounding visible text.
       .trim()
   }
 

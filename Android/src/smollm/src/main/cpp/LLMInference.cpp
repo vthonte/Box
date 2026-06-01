@@ -337,7 +337,7 @@ LLMInference::completionLoop() {
     
     // Check for stop sequences in the cumulative response
     static const std::vector<std::string> stop_sequences = {
-        "<turn|", "<|turn_end|>", "<turn_end|>", "<start_of_turn>", "<end_of_turn>", "###", "System instruction:"
+        "<turn|", "<|turn_end|>", "<turn_end|>", "<start_of_turn>", "<end_of_turn>", "System instruction:"
     };
 
     std::string current_full = _response + _cacheResponseTokens + piece;

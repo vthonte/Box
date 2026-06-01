@@ -98,6 +98,8 @@ import kotlin.math.min
 private const val WEB_SETTINGS_PREFS = "box_settings"
 private const val WEB_PAGE_CHAR_LIMIT_KEY = "web_page_char_limit"
 private const val DEFAULT_WEB_PAGE_CHAR_LIMIT = 8000
+private const val WEB_SEARCH_RESULT_LIMIT_KEY = "web_search_result_limit"
+private const val DEFAULT_WEB_SEARCH_RESULT_LIMIT = 5
 
 private val THEME_OPTIONS = listOf(Theme.THEME_AUTO, Theme.THEME_LIGHT, Theme.THEME_DARK)
 
@@ -116,6 +118,12 @@ fun SettingsDialog(
     remember {
       mutableStateOf(
         webPrefs.getInt(WEB_PAGE_CHAR_LIMIT_KEY, DEFAULT_WEB_PAGE_CHAR_LIMIT).toString()
+      )
+    }
+  var webSearchResultLimitInput by
+    remember {
+      mutableStateOf(
+        webPrefs.getInt(WEB_SEARCH_RESULT_LIMIT_KEY, DEFAULT_WEB_SEARCH_RESULT_LIMIT).toString()
       )
     }
   val dateFormatter = remember {
@@ -478,6 +486,77 @@ fun SettingsDialog(
                       ?: DEFAULT_WEB_PAGE_CHAR_LIMIT
                   webPrefs.edit().putInt(WEB_PAGE_CHAR_LIMIT_KEY, parsed).apply()
                   webPageCharLimitInput = parsed.toString()
+                  focusManager.clearFocus()
+                }
+              ) {
+                Text("Save")
+              }
+            }
+          }
+
+          // Web search max result count.
+          Column(
+            modifier = Modifier.fillMaxWidth().semantics(mergeDescendants = true) {},
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+          ) {
+            Text(
+              "Web search result limit",
+              style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Medium),
+            )
+            Text(
+              "Maximum number of search results returned to the model context (1-10).",
+              style = MaterialTheme.typography.bodySmall,
+              color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Row(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
+              BasicTextField(
+                value = webSearchResultLimitInput,
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                modifier =
+                  Modifier
+                    .weight(1f)
+                    .padding(top = 4.dp)
+                    .focusRequester(focusRequester)
+                    .onFocusChanged { isFocused = it.isFocused },
+                onValueChange = { value ->
+                  webSearchResultLimitInput = value.filter { it.isDigit() }.take(2)
+                },
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onSurface),
+                cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
+              ) { innerTextField ->
+                Box(
+                  modifier =
+                    Modifier.border(
+                        width = if (isFocused) 2.dp else 1.dp,
+                        color =
+                          if (isFocused) MaterialTheme.colorScheme.primary
+                          else MaterialTheme.colorScheme.outline,
+                        shape = CircleShape,
+                      )
+                      .height(40.dp),
+                  contentAlignment = Alignment.CenterStart,
+                ) {
+                  Box(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
+                    if (webSearchResultLimitInput.isEmpty()) {
+                      Text(
+                        DEFAULT_WEB_SEARCH_RESULT_LIMIT.toString(),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = MaterialTheme.typography.bodySmall,
+                      )
+                    }
+                    innerTextField()
+                  }
+                }
+              }
+              Button(
+                onClick = {
+                  val parsed =
+                    webSearchResultLimitInput.toIntOrNull()?.coerceIn(1, 10)
+                      ?: DEFAULT_WEB_SEARCH_RESULT_LIMIT
+                  webPrefs.edit().putInt(WEB_SEARCH_RESULT_LIMIT_KEY, parsed).apply()
+                  webSearchResultLimitInput = parsed.toString()
                   focusManager.clearFocus()
                 }
               ) {

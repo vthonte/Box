@@ -29,6 +29,7 @@ import com.google.ai.edge.gallery.data.Model
 import com.google.ai.edge.gallery.runtime.CleanUpListener
 import com.google.ai.edge.gallery.runtime.LlmModelHelper
 import com.google.ai.edge.gallery.runtime.ResultListener
+import com.google.ai.edge.gallery.runtime.runWithInferencePriorityHints
 import com.google.ai.edge.litertlm.Contents
 import com.google.ai.edge.litertlm.ToolProvider
 import com.google.mlkit.genai.common.DownloadStatus
@@ -80,17 +81,18 @@ object AICoreModelHelper : LlmModelHelper {
 
     coroutineScope.launch {
       try {
-        val status = generativeModel.checkStatus()
+        val status = runWithInferencePriorityHints { generativeModel.checkStatus() }
         when (status) {
           FeatureStatus.AVAILABLE -> {
-            generativeModel.warmup()
+            runWithInferencePriorityHints { generativeModel.warmup() }
             updateTokenLimit(model, generativeModel)
             model.instance = AICoreModelInstance(generativeModel)
             onDone("Feature is available")
           }
           FeatureStatus.DOWNLOADABLE,
           FeatureStatus.DOWNLOADING -> {
-            generativeModel.download().collect { downloadStatus ->
+            runWithInferencePriorityHints {
+              generativeModel.download().collect { downloadStatus ->
               when (downloadStatus) {
                 is DownloadStatus.DownloadStarted -> {
                   onDone("Downloading (${downloadStatus.bytesToDownload} bytes)")
@@ -102,11 +104,12 @@ object AICoreModelHelper : LlmModelHelper {
                   onDone("Download failed: ${downloadStatus.e.message}")
                 }
                 is DownloadStatus.DownloadCompleted -> {
-                  generativeModel.warmup()
+                  runWithInferencePriorityHints { generativeModel.warmup() }
                   updateTokenLimit(model, generativeModel)
                   model.instance = AICoreModelInstance(generativeModel)
                   onDone("Download completed")
                 }
+              }
               }
             }
           }
@@ -136,7 +139,7 @@ object AICoreModelHelper : LlmModelHelper {
 
     coroutineScope.launch {
       try {
-        val status = generativeModel.checkStatus()
+        val status = runWithInferencePriorityHints { generativeModel.checkStatus() }
         when (status) {
           FeatureStatus.AVAILABLE -> {
             onDone()
@@ -144,7 +147,8 @@ object AICoreModelHelper : LlmModelHelper {
           FeatureStatus.DOWNLOADABLE,
           FeatureStatus.DOWNLOADING -> {
             var totalBytesToDownload = model.sizeInBytes
-            generativeModel.download().collect { downloadStatus ->
+            runWithInferencePriorityHints {
+              generativeModel.download().collect { downloadStatus ->
               when (downloadStatus) {
                 is DownloadStatus.DownloadStarted -> {
                   totalBytesToDownload = downloadStatus.bytesToDownload
@@ -159,6 +163,7 @@ object AICoreModelHelper : LlmModelHelper {
                 is DownloadStatus.DownloadCompleted -> {
                   onDone()
                 }
+              }
               }
             }
           }
@@ -306,10 +311,11 @@ object AICoreModelHelper : LlmModelHelper {
             this.topK = topK
           }
         }
-      val flow = instance.generativeModel.generateContentStream(request)
+      val flow = runWithInferencePriorityHints { instance.generativeModel.generateContentStream(request) }
 
       var fullResponse = ""
-      flow.collect { response ->
+      runWithInferencePriorityHints {
+        flow.collect { response ->
         val candidate = response.candidates.firstOrNull()
         val text = candidate?.text ?: ""
 
@@ -323,6 +329,7 @@ object AICoreModelHelper : LlmModelHelper {
         } else {
           resultListener(text, false, null)
         }
+      }
       }
     } catch (e: CancellationException) {
       Log.i(TAG, "The inference is cancelled.")

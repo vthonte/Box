@@ -39,7 +39,9 @@ android {
                 arguments += "-DGGML_LLAMAFILE=OFF"
                 arguments += "-DLLAMA_OPENSSL=OFF"
                 arguments += "-DLLAMA_BUILD_UI=OFF"
-                arguments += "-DGGML_SCHED_NO_REALLOC=ON"
+                // Keep scheduler realloc enabled. Disabling realloc can abort at runtime
+                // when decode graphs change shape across steps.
+                arguments += "-DGGML_SCHED_NO_REALLOC=OFF"
                 if (localEnableAdrenoOpenCl) {
                     arguments += "-DGGML_OPENCL=ON"
                     arguments += "-DGGML_OPENCL_USE_ADRENO_KERNELS=ON"
