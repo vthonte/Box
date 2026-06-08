@@ -33,7 +33,7 @@
 If this project helped you, please ⭐️ star it to help others find it. 
 ##  Download
 
-[![Download Box v2.0.0 APK](https://img.shields.io/badge/Download-Latest_APK-A6E3A1?style=for-the-badge&logo=android&logoColor=1E1E2E)](https://github.com/jegly/Box/releases/latest)
+[![Download Box v2.0.1 APK](https://img.shields.io/badge/Download-Latest_APK-A6E3A1?style=for-the-badge&logo=android&logoColor=1E1E2E)](https://github.com/jegly/Box/releases/latest)
 
 > **Note:** If you're using a custom ROM (LineageOS, GrapheneOS, CalyxOS), download the `custom-rom-support` APK from the [latest release](https://github.com/jegly/Box/releases/latest) instead.
 
@@ -86,15 +86,18 @@ Box is an independent community fork of [Google AI Edge Gallery](https://github.
 <details>
 <summary>
 
-## Changelog v1.0.7 – v2.0.0
+## Changelog v1.0.7 – v2.0.1
 
 </summary>
 
 | Version | Feature | Details |
 |---|---|---|
+| v2.0.1 | **Fix — Snapdragon 8 Elite NPU crash (SM8750 / SM8750-AB)** | The audio sub-graph was incorrectly routed to the NPU on all SM8750 devices, causing an instant hard crash (SIGABRT) when loading the Snapdragon NPU model — no error popup, just an immediate exit. Audio always uses CPU regardless of the primary backend, matching upstream behaviour. Fixes Red Magic NX799J, iQOO 13, and any other SM8750 or SM8750-AB device. |
+| v2.0.1 | **Fix — Samsung Galaxy S25 / S26 Ultra NPU models not listed** | Samsung's "Snapdragon 8 Elite for Galaxy" variant reports `SM8750-AB` as its SoC identifier, not `SM8750`. The model allowlist only matched `sm8750`, so dedicated NPU models were invisible to all S25 and S26 Ultra users. |
+| v2.0.1 | **New model — Gemma 4 E2B (Qualcomm QCS8275 / Dragonwing IQ8)** | Added an NPU model entry for the Qualcomm QCS8275 SoC. Appears automatically on matching hardware. |
 | v2.0.0 | **Google Tensor G5 (Pixel 10) acceleration** | Gemma now runs on the Pixel 10's Tensor **G5 TPU**, not just the GPU. Supported models route to the TPU automatically and expose a dedicated **TPU** option in the accelerator picker. |
 | v2.0.0 | **MediaTek NPU support** | Bundled the MediaTek dispatch runtime and added the first models that run on **MediaTek Dimensity** neural engines. |
-| v2.0.0 | **New models** | **Gemma 4 E2B (Tensor G5)** and **Gemma 4 12B** (GPU); **Gemma 3 1B-IT (Tensor G5)**, **Gemma 3n E2B (MediaTek, multimodal)** and **Qwen3 0.6B (MediaTek)** NPU builds; Gated Gemma NPU models now download in-app with no token. |
+| v2.0.0 | **New models** | **Gemma 4 E2B (Tensor G5)** and **Gemma 4 12B** (GPU); **Gemma 3 1B-IT (Tensor G5)**, **Gemma 3n E2B (MediaTek, multimodal)** and **Qwen3 0.6B (MediaTek)** |
 | v2.0.0 | **Face Recognition — on-device & encrypted** | New tool in the image section: detect, enroll and name people, then recognise them in photos or **live from the camera**, fully offline. Multi-sample enrollment with face alignment, capture-to-add, an on-screen face mesh, and a settings panel (match strictness, front camera, show %, clear all). All face data is encrypted on-device (SQLCipher) and never leaves the phone — opt-in and user-enrolled only. |
 | v2.0.0 | **New Light theme + theme-aware home** | A crisp, wallpaper-independent **Light** theme, and the home background now follows your selected theme (System / Light / Catppuccin / Dracula) instead of always being black. |
 | v2.0.0 | **Gemini Nano Hub on custom-ROM** | The full Gemini Nano hub (Summarize / Proofread / Rewrite / Describe / Chat / Speech) is now included in the **custom-rom-support** build too, degrading gracefully on devices without AICore (ML-Kit vision tools still work). |
@@ -482,8 +485,8 @@ Licensed under the Apache License, Version 2.0
 
   | Variant | SHA-256 |
   |---|---|
-  | main | `sha256:8791d97f654327349337a8120a30bd8e289970f605e29ed2c64c531306027c1d` |
-  | custom-rom-support | `sha256:fc618a9f3ab89b809616c26b44c2bc7b8585bc3ffbccdba81cf525562b8cd7ab` |
+  | main | `` |
+  | custom-rom-support | `` |
 
   ### Signing certificate
 
