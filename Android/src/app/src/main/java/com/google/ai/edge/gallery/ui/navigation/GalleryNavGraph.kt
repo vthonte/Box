@@ -98,6 +98,7 @@ private const val ROUTE_MODEL = "route_model"
 private const val ROUTE_BENCHMARK = "benchmark"
 private const val ROUTE_MODEL_MANAGER = "model_manager"
 private const val ROUTE_CHAT_HISTORY = "chat_history"
+private const val ROUTE_JARVIS_SETTINGS = "jarvis_settings"
 private const val ENTER_ANIMATION_DURATION_MS = 500
 private val ENTER_ANIMATION_EASING = EaseOutExpo
 private const val ENTER_ANIMATION_DELAY_MS = 100
@@ -219,6 +220,9 @@ fun GalleryNavHost(
           },
           onImportModelClicked = {
             navController.navigate("$ROUTE_MODEL_MANAGER?startImport=true")
+          },
+          onOpenJarvisSettings = {
+            navController.navigate(ROUTE_JARVIS_SETTINGS)
           },
           gm4 = true,
         )
@@ -419,6 +423,20 @@ fun GalleryNavHost(
         },
         navController = navController,
         modelManagerViewModel = modelManagerViewModel,
+      )
+    }
+
+    // Box: Jarvis Settings page.
+    composable(
+      route = ROUTE_JARVIS_SETTINGS,
+      enterTransition = { slideEnter() },
+      exitTransition = { slideExit() },
+    ) {
+      val jarvisSettingsViewModel = hiltViewModel<com.google.ai.edge.gallery.feature.jarvis.ui.JarvisSettingsViewModel>()
+      com.google.ai.edge.gallery.feature.jarvis.ui.JarvisSettingsScreen(
+        settingsManager = jarvisSettingsViewModel.settingsManager,
+        modelManagerViewModel = modelManagerViewModel,
+        onBack = { navController.navigateUp() }
       )
     }
 

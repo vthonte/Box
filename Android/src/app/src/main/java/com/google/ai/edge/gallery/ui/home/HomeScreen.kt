@@ -171,6 +171,7 @@ fun HomeScreen(
   navigateToChatHistory: () -> Unit = {},
   onNewChatClicked: () -> Unit = {},
   onImportModelClicked: () -> Unit = {},
+  onOpenJarvisSettings: () -> Unit = {},
   enableAnimation: Boolean,
   modifier: Modifier = Modifier,
   gm4: Boolean = false,
@@ -575,6 +576,7 @@ fun HomeScreen(
       curThemeOverride = modelManagerViewModel.readThemeOverride(),
       modelManagerViewModel = modelManagerViewModel,
       onDismissed = { showSettingsDialog = false },
+      onOpenJarvisSettings = onOpenJarvisSettings,
     )
   }
 
