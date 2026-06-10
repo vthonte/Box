@@ -109,6 +109,7 @@ fun SettingsDialog(
   curThemeOverride: Theme,
   modelManagerViewModel: ModelManagerViewModel,
   onDismissed: () -> Unit,
+  onOpenJarvisSettings: () -> Unit = {},
 ) {
   var selectedTheme by remember { mutableStateOf(curThemeOverride) }
   var hfToken by remember { mutableStateOf(modelManagerViewModel.getTokenStatusAndData().data) }
@@ -392,6 +393,25 @@ fun SettingsDialog(
 
           // Box: Biometric database encryption toggle
           BiometricEncryptionSection(context)
+
+          // Box: Jarvis Mode
+          Column(modifier = Modifier.fillMaxWidth().semantics(mergeDescendants = true) {}) {
+            Text(
+              "Jarvis Mode",
+              style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Medium),
+            )
+            Text(
+              "Configure the always-on AI assistant.",
+              style = MaterialTheme.typography.bodySmall,
+              color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            OutlinedButton(
+              modifier = Modifier.padding(top = 4.dp),
+              onClick = onOpenJarvisSettings
+            ) {
+              Text("Jarvis Settings")
+            }
+          }
 
           // Box: Offline mode toggle
           Column(modifier = Modifier.fillMaxWidth().semantics(mergeDescendants = true) {}) {

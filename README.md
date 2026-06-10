@@ -1,23 +1,34 @@
 <p align="center">
-  <img src="images/banner-box002.svg" alt="Box Header" width="81%" />
+  <img src="https://raw.githubusercontent.com/jegly/Box/main/images/banner-box002.svg" alt="Box Header" width="81%" />
 </p>
 
 [![RAG](https://img.shields.io/badge/RAG-Retrieval%20Augmented-BD93F9.svg)](https://en.wikipedia.org/wiki/Retrieval-augmented_generation)
 [![MCP Servers](https://img.shields.io/badge/MCP_Servers-BD93F9.svg?logo=anthropic&logoColor=white)](https://modelcontextprotocol.io)
 [![Kotlin](https://img.shields.io/badge/Kotlin-90.4%25-6272A4.svg?logo=kotlin&logoColor=white)](https://kotlinlang.org)
 [![Android](https://img.shields.io/badge/Android-16%2B-50FA7B.svg?logo=android&logoColor=white)](https://developer.android.com)
-[![Version](https://img.shields.io/badge/UpstreamVersion-1.0.15-BD93F9.svg)](https://github.com/Vasili-Sk/AI-Box-plus/releases)
+[![Version](https://img.shields.io/badge/UpstreamVersion-1.0.15-BD93F9.svg)](https://github.com/jegly/Box/releases)
 [![License](https://img.shields.io/badge/License-Apache%202.0-8BE9FD.svg)](LICENSE)
+![GitHub all releases](https://img.shields.io/github/downloads/jegly/Box/total)
+[![Android](https://img.shields.io/badge/Android-16%2B-50FA7B.svg?logo=android&logoColor=white)](https://developer.android.com)
+[![Kotlin](https://img.shields.io/badge/Kotlin-90.4%25-BD93F9.svg?logo=kotlin&logoColor=white)](https://kotlinlang.org)
+[![Hybrid Engine](https://img.shields.io/badge/Engine-LiteRT%20%2B%20llama.cpp-BD93F9.svg)]()
 [![llama.cpp](https://img.shields.io/badge/llama.cpp-GGUF-FFB86C.svg)](https://github.com/ggerganov/llama.cpp)
 [![stable-diffusion.cpp](https://img.shields.io/badge/stable--diffusion.cpp-GGUF-FFB86C.svg)](https://github.com/leejet/stable-diffusion.cpp)
 [![whisper.cpp](https://img.shields.io/badge/whisper.cpp-STT-FFB86C.svg)](https://github.com/ggerganov/whisper.cpp)
-[![Voice Mode](https://img.shields.io/badge/Voice%20Mode-Speech--to--Speech-50FA7B.svg)]()
 [![LiteRT](https://img.shields.io/badge/LiteRT-NPU-FF79C6.svg)](https://ai.google.dev/edge/litert)
-[![Document Analysis](https://img.shields.io/badge/Document_Analysis-PDF_%2B_TXT-50FA7B.svg)]()
-[![Vision](https://img.shields.io/badge/Vision-Multimodal_LLM-50FA7B.svg?logo=camera&logoColor=white)]()
+[![GGUF Import](https://img.shields.io/badge/GGUF-Import-50FA7B.svg)]()
 [![Snapdragon NPU](https://img.shields.io/badge/Snapdragon-NPU%208Gen2%2F3%2FElite-FF79C6.svg)](https://www.qualcomm.com/products/mobile/snapdragon)
 [![Google Tensor](https://img.shields.io/badge/Google%20Tensor-TPU%20G3%2FG4%2FG5%20(Pixel%208--10)-FF79C6.svg)](https://store.google.com/gb/category/phones)
 [![MediaTek](https://img.shields.io/badge/MediaTek-NPU-FF79C6.svg)](https://www.mediatek.com/)
+[![Gemini Nano](https://img.shields.io/badge/Gemini%20Nano-ML%20Kit%20%C2%B7%20NPU-FF79C6.svg)](https://developers.google.com/ml-kit/language/gemini-nano)
+[![RAG](https://img.shields.io/badge/RAG-Retrieval%20Augmented-BD93F9.svg)](https://en.wikipedia.org/wiki/Retrieval-augmented_generation)
+[![MCP Servers](https://img.shields.io/badge/MCP_Servers-BD93F9.svg?logo=anthropic&logoColor=white)](https://modelcontextprotocol.io)
+[![Vision](https://img.shields.io/badge/Vision-Multimodal_LLM-50FA7B.svg?logo=camera&logoColor=white)]()
+[![Document Analysis](https://img.shields.io/badge/Document_Analysis-PDF_%2B_TXT-50FA7B.svg)]()
+[![Super-Resolution](https://img.shields.io/badge/Super--Resolution-Image%20Upscaling-50FA7B.svg)]()
+[![Voice Mode](https://img.shields.io/badge/Voice%20Mode-Speech--to--Speech-50FA7B.svg)]()
+[![SenseVoice](https://img.shields.io/badge/SenseVoice-Multilingual%20STT-FF79C6.svg)](https://github.com/FunAudioLLM/SenseVoice)
+[![Supertonic](https://img.shields.io/badge/Supertonic-On--Device%20TTS-FF79C6.svg)](https://github.com/supertone-inc/supertonic)
 [![SQLCipher](https://img.shields.io/badge/SQLCipher-AES--256-F1FA8C.svg?logo=sqlite&logoColor=white)](https://www.zetetic.net/sqlcipher/)
 [![Biometric](https://img.shields.io/badge/Biometric-Lock-FF5555.svg?logo=fingerprint&logoColor=white)]()
 [![Offline](https://img.shields.io/badge/Network-Hard%20Offline-FF5555.svg)]()
@@ -25,21 +36,21 @@
 [![Hybrid Engine](https://img.shields.io/badge/Engine-LiteRT%20%2B%20llama.cpp-BD93F9.svg)]()
 [![Gemini Nano](https://img.shields.io/badge/Gemini%20Nano-ML%20Kit%20%C2%B7%20NPU-FF79C6.svg)](https://developers.google.com/ml-kit/language/gemini-nano)
 [![Fork](https://img.shields.io/badge/Fork-Google%20AI%20Edge-6272A4.svg)](https://github.com/google-ai-edge/gallery)
-
+![GitHub all releases](https://img.shields.io/github/downloads/jegly/Box/total)                                                            
 
 If this project helped you, please ⭐️ star it to help others find it. 
-## 📱 Download
+##  Download
 
-[![Download Box v1.0.11 APK](https://img.shields.io/badge/Download-Latest_APK-A6E3A1?style=for-the-badge&logo=android&logoColor=1E1E2E)](https://github.com/Vasili-Sk/AI-Box-plus/releases/latest)
+[![Download Box v1.0.11 APK](https://img.shields.io/badge/Download-Latest_APK-A6E3A1?style=for-the-badge&logo=android&logoColor=1E1E2E)](https://github.com/jegly/Box/releases/latest)
 
-> **Note:** If you're using a custom ROM (LineageOS, GrapheneOS, CalyxOS), download the `custom-rom-support` APK from the [latest release](https://github.com/Vasili-Sk/AI-Box-plus/releases/latest) instead.
+> **Note:** If you're using a custom ROM (LineageOS, GrapheneOS, CalyxOS), download the `custom-rom-support` APK from the [latest release](https://github.com/jegly/Box/releases/latest) instead.
 
 ### Install via Obtainium
 
 1. Open **Obtainium** on your phone
 2. Tap the **+** button
 3. Paste this repo URL:  
-   `https://github.com/Vasili-Sk/AI-Box-plus`
+   `https://github.com/jegly/Box`
 4. Tap **Add**
 
 
@@ -64,12 +75,13 @@ If this project helped you, please ⭐️ star it to help others find it.
   3. Tap **Add** — Obtainium will find the latest release and install it                                                                                                                                                                      
   4. Future updates will be detected automatically
                                                                                                                                                                                                                                               
-  > **Note:** The version number shown inside the app (1.0.15) reflects the
-  > upstream Google AI Edge Gallery build number and is unrelated to the Box
-  > release version. Box releases are tracked via GitHub tags (v1.0.11 etc).
-  > Use **Settings → Check for updates** to see if a newer Box release is available.
+  > **Note:** As of **v2.0.0**, the in-app **App version** matches the Box
+  > release version (2.0.0) — the earlier mismatch with the upstream Google AI
+  > Edge Gallery build number (which showed 1.0.15) is fixed (#67). Box releases
+  > are tracked via GitHub tags. Use **Settings → Check for updates** to see if a
+  > newer Box release is available.
 
-**Box is a security-hardened fork of [Google AI Edge Gallery](https://github.com/google-ai-edge/gallery) — with on-device image generation, voice mode (speech-to-speech AI chat), voice input, document analysis, vision AI, biometric lock, encrypted chat history, llama.cpp support, and GGUF model import.**
+**Box is a security-hardened feature rich fork of [Google AI Edge Gallery](https://github.com/google-ai-edge/gallery) — with on-device image generation, AI image upscaling, voice mode (speech-to-speech AI chat), voice input, multilingual text-to-speech, document analysis, vision AI, biometric lock, encrypted chat history, llama.cpp support, and GGUF model import and more**
 
 > [!IMPORTANT]
 >## Disclaimer
@@ -82,12 +94,41 @@ Box is an independent community fork of [Google AI Edge Gallery](https://github.
 <details>
 <summary>
 
-## Changelog v1.0.7 – v1.0.11
+## Changelog v1.0.7 – v2.0.1
 
 </summary>
 
 | Version | Feature | Details |
 |---|---|---|
+| v2.0.1 | **Fix — Snapdragon 8 Elite NPU crash (SM8750 / SM8750-AB)** | The audio sub-graph was incorrectly routed to the NPU on all SM8750 devices, causing an instant hard crash (SIGABRT) when loading the Snapdragon NPU model — no error popup, just an immediate exit. Audio always uses CPU regardless of the primary backend, matching upstream behaviour. Fixes Red Magic NX799J, iQOO 13, and any other SM8750 or SM8750-AB device. |
+| v2.0.1 | **Fix — Samsung Galaxy S25 / S26 Ultra NPU models not listed** | Samsung's "Snapdragon 8 Elite for Galaxy" variant reports `SM8750-AB` as its SoC identifier, not `SM8750`. The model allowlist only matched `sm8750`, so dedicated NPU models were invisible to all S25 and S26 Ultra users. |
+| v2.0.1 | **New model — Gemma 4 E2B (Qualcomm QCS8275 / Dragonwing IQ8)** | Added an NPU model entry for the Qualcomm QCS8275 SoC. Appears automatically on matching hardware. |
+| v2.0.0 | **Google Tensor G5 (Pixel 10) acceleration** | Gemma now runs on the Pixel 10's Tensor **G5 TPU**, not just the GPU. Supported models route to the TPU automatically and expose a dedicated **TPU** option in the accelerator picker. |
+| v2.0.0 | **MediaTek NPU support** | Bundled the MediaTek dispatch runtime and added the first models that run on **MediaTek Dimensity** neural engines. |
+| v2.0.0 | **New models** | **Gemma 4 E2B (Tensor G5)** and **Gemma 4 12B** (GPU); **Gemma 3 1B-IT (Tensor G5)**, **Gemma 3n E2B (MediaTek, multimodal)** and **Qwen3 0.6B (MediaTek)** |
+| v2.0.0 | **Face Recognition — on-device & encrypted** | New tool in the image section: detect, enroll and name people, then recognise them in photos or **live from the camera**, fully offline. Multi-sample enrollment with face alignment, capture-to-add, an on-screen face mesh, and a settings panel (match strictness, front camera, show %, clear all). All face data is encrypted on-device (SQLCipher) and never leaves the phone — opt-in and user-enrolled only. |
+| v2.0.0 | **New Light theme + theme-aware home** | A crisp, wallpaper-independent **Light** theme, and the home background now follows your selected theme (System / Light / Catppuccin / Dracula) instead of always being black. |
+| v2.0.0 | **Gemini Nano Hub on custom-ROM** | The full Gemini Nano hub (Summarize / Proofread / Rewrite / Describe / Chat / Speech) is now included in the **custom-rom-support** build too, degrading gracefully on devices without AICore (ML-Kit vision tools still work). |
+| v2.0.0 | **Nano document-attach crash + leak fixes** | Fixed a crash when attaching a document in Summarize/Proofread/Rewrite (the file picker could be hijacked by the photo picker on Android 14+) — now uses the proper document picker with a clean fallback. Also fixed GenAI service/memory leaks when switching between Nano features. |
+| v2.0.0 | **Copy button on code blocks** | Fenced code blocks in chat now render with a language label and a one-tap **Copy code** button. |
+| v2.0.0 | **SenseVoice in Chat** | The chat mic now works with a loaded SenseVoice model (priority Whisper → SenseVoice → system) instead of dead-ending when no Whisper model is present. |
+| v2.0.0 | **Speculative decoding in chat** | Speculative / Multi-Token-Prediction decoding is available for Gemma 4 in chat (off by default). |
+| v2.0.0 | **Fix #69 — agent mode with text-only models** | Agent mode no longer force-loads vision on models that don't support it, which previously blocked text-only imported models entirely. |
+| v2.0.0 | **Fix #67 — correct installed version** | Aligned `versionName` with the public version, so Obtainium / Android's "App version" report the right number (no more false "update available"). This is why the release jumps to **2.0.0**. |
+| v2.0.0 | **Smaller download** | Native libraries are now compressed inside the APK — the main build drops from 400 MB+ to ~278 MB (they're extracted on install). |
+| v1.0.12 | **SenseVoice — multilingual speech-to-text** | New card in the Voice tab. Transcribes Chinese, English, Japanese, Korean and Cantonese fully offline, roughly **5× faster than Whisper** on CPU. Live "listening" preview while you talk, a multi-message transcript log (copy / delete / clear), language picker, punctuation & number formatting, and optional emotion / audio-event tags. (#68) |
+| v1.0.12 | **Supertonic — multilingual text-to-speech** | New card in the Voice tab. Lightweight (~66M param) on-device speech synthesis in English, Korean, Spanish, Portuguese and French, with multiple built-in voices and adjustable speed. Fully offline — text never leaves the device. |
+| v1.0.12 | **AI Image Upscaling (super-resolution)** | New **Upscale** tool in the image tab. Enhance and enlarge any photo **4× on-device** and save it to your gallery. Three models bundled in the app — **XLSR** (fast), **Real-ESRGAN General** (balanced), **Real-ESRGAN x4plus** (quality) — run via LiteRT, no download required. Photos are auto-rotated (EXIF-aware) before upscaling. |
+| v1.0.12 | **Gemini Nano Vision — visual overlays (main)** | Pose detection now draws a **skeleton overlay** and Face Mesh a **468-point mesh** directly on the camera preview and still images (previously text-only). Added copy buttons on every vision result, an adjustable **live refresh rate** (Fast / Balanced / Slow / Power-saver) with a **Freeze/Resume** toggle, **front/rear camera switching** on all modes, and image upload from your gallery. |
+| v1.0.12 | **Models browser organised by type** | The model list is now grouped into **Language models / Speech-to-Text / Text-to-Speech / Image generation / Other** instead of one flat alphabetical list. |
+| v1.0.12 | **New language models** | Added **TinyLlama 1.1B**, **Phi-4-mini**, **TinySwallow 1.5B**, **VibeThinker 1.5B**, and **Qwen3 8B** to the download list. |
+| v1.0.12 | **Markdown & LaTeX rendering overhaul (#42)** | Headers, bullet/numbered lists and **bold** text now render correctly even when mixed with inline math on the same line; bold that spans a math expression no longer shows literal `**`; wide display equations scroll instead of being clipped. |
+| v1.0.12 | **Clearer model guidance + UI cleanup** | Gemma 4 E2B labelled **"Recommended"**, E4B **"Best overall for flagship devices,"** with cleaned-up model descriptions. Removed promotional banners/links from the MCP and Agent screens (sample-prompt chips kept). |
+| v1.0.12 | **Fix #59 — Snapdragon NPU crash** | Vision/audio sub-backends now follow the primary backend on the NPU path, fixing hard crashes on some Snapdragon devices. |
+| v1.0.12 | **Fix #61 — leftover model files** | Orphaned model-version directories are cleaned up after app updates. |
+| v1.0.12 | **Fix #65 — GrapheneOS speech hang** | Restored the `SpeechRecognizer` availability gate (custom-rom-support build). |
+| v1.0.12 | **Fix — config dialog crash** | Opening the model settings dialog on small-context-window (&lt;2000) models no longer crashes. |
+| v1.0.12 | **Android SDK 37 + deeplink fix** | Updated compile/target SDK to 37 and fixed the notification tap deep link. |
 | v1.0.11 | **MCP server support** | The Agent tab can now connect to external Model Context Protocol servers (e.g. `gitmcp.io/<owner>/<repo>`) and give the model access to remote tools. Off by default — enable in Settings, add a server URL, accept the disclaimer. Every tool call fires a per-call permission dialog (Allow once / Always allow / Deny). Hard Offline Mode disables MCP. |
 | v1.0.11 | **"Agent Skills" renamed to "Agent"** | Reflects the addition of MCP tools alongside the existing 20 built-in skills. Internal IDs unchanged. |
 | v1.0.11 | **Broader NPU init crash recovery (main)** | Snapdragon 8 Elite / Vivo OriginOS users (e.g. iQOO 13) reporting hard crashes on NPU model open now fall back silently to GPU instead. Any catchable NPU init exception is recovered, not just `TF_LITE_AUX`. |
@@ -148,11 +189,11 @@ Built [OfflineLLM](https://github.com/jegly/OfflineLLM) first — a privacy-firs
 
 ## What is Box?  
 
-<img src="images/box-banner-minimal-1600x320.svg" alt="Box Header" width="1000" />  
+<img src="https://raw.githubusercontent.com/jegly/Box/main/images/box-banner-minimal-1600x320.svg" alt="Box Header" width="1000" />  
 
 
 
-Box is an Android app for running AI entirely on-device — chat, voice mode, image generation, speech-to-text, document analysis, and vision, all without a network connection. It inherits the full feature set of the upstream Google AI Edge Gallery and layers on top: encrypted conversations, biometric lock, hard offline mode, and three additional native inference engines (llama.cpp, stable-diffusion.cpp, whisper.cpp) alongside LiteRT.
+Box is an Android app for running AI entirely on-device — chat, voice mode, image generation, image upscaling, speech-to-text, text-to-speech, document analysis, and vision, all without a network connection. It inherits the full feature set of the upstream Google AI Edge Gallery and layers on top: encrypted conversations, biometric lock, hard offline mode, and three additional native inference engines (llama.cpp, stable-diffusion.cpp, whisper.cpp) alongside LiteRT.
 
 # Box: On-Device AI. No Cloud. No Compromise.
 
@@ -217,14 +258,17 @@ Box is a fork of [Google AI Edge Gallery](https://github.com/google-ai-edge/gall
 | NPU / TPU | All Snapdragon / Tensor / MediaTek variants bundled in one APK (upstream ships per-SoC) |
 | Voice mode / Vision mode | Free talk (continuous hands-free loop) and Vision talk (live camera + voice) |
 | Image generation | On-device Stable Diffusion via GGUF |
-| Speech-to-text | On-device Whisper STT |
+| Image upscaling | AI super-resolution — enlarge any photo 4× on-device (XLSR / Real-ESRGAN via LiteRT), models bundled, fully offline |
+| Speech-to-text | On-device Whisper STT, plus **SenseVoice** for fast multilingual transcription (Chinese / English / Japanese / Korean / Cantonese, ~5× faster than Whisper) |
+| Text-to-speech | **Supertonic** multilingual on-device TTS (5 languages, multiple voices) alongside Piper / Kokoro |
 | Document analysis | Attach text files (`.txt`, `.md`, `.csv`, `.kt`, etc.) directly in chat |
 | Document Q&A | RAG pipeline: import PDFs, embed with MiniLM on-device, ask questions grounded in document content — answers cite their source passages |
-| Gemini Nano | 6 on-device ML Kit features (Summarize, Proofread, Rewrite, Chat, Describe, Speech) — NPU/TPU-accelerated on Pixel 9+, entirely on-device via AICore (main branch) |
+| Gemini Nano | 6 on-device ML Kit features (Summarize, Proofread, Rewrite, Chat, Describe, Speech) — entirely on-device via AICore on Pixel 9+/10 and recent Samsung / Xiaomi / OnePlus / OPPO / vivo flagships (both branches as of v2.0.0). Vision modes add live camera + still-image analysis with visual overlays (pose skeleton, 468-point face mesh) |
+| Face Recognition | On-device, encrypted face recognition (both branches) — enroll and name people, then recognise them in photos or live from the camera. Multi-sample enrollment with alignment, capture-to-add, face-mesh overlay, SQLCipher-encrypted storage, fully offline and opt-in |
 | Background Removal | ML Kit Subject Segmentation — remove backgrounds from photos, output a transparency-preserving PNG (main branch) |
 | Chat history | Persisted to a SQLCipher-encrypted Room database, resumable across sessions |
 | Security | Biometric app lock, hard offline mode, prompt sanitisation, audit log, tap jacking protection, accessibility data sensitivity |
-| Themes | Catppuccin (14 accents) and Dracula (7 accents) alongside Material You — three-way picker in Settings |
+| Themes | Catppuccin (14 accents), Dracula (7 accents), a bright **Light** theme, and Material You — picker in Settings, with the home screen tinted to match the active theme |
 | Agent (skills + MCP) | 20 built-in skills (upstream has 9) plus Model Context Protocol — connect to remote MCP servers and give the model real tools, with per-call permission prompts |
 | Math rendering | LaTeX expressions rendered as Unicode in chat, including inside markdown table cells |
 | App shortcut | Long-press icon → AI Chat for instant cold-start navigation |
@@ -247,8 +291,14 @@ With **Gemma 4 E2B / E4B** selected, the chat input expands to a full multimodal
 ### Local Diffusion
 On-device image generation powered by [stable-diffusion.cpp](https://github.com/leejet/stable-diffusion.cpp). Runs Stable Diffusion 1.5 in GGUF format fully offline — no API key, no cloud. Configurable steps, CFG scale, seed, and image size presets. Save generated images directly to your gallery. Import your own GGUF diffusion models.
 
+### Image Upscaling (Super-Resolution)
+Enhance and enlarge any photo **4× on-device** with AI super-resolution. Pick an image, upscale it, and save the result to your gallery — fully offline, nothing leaves the device. Choose between **XLSR** (fastest, tiny), **Real-ESRGAN General** (balanced), and **Real-ESRGAN x4plus** (highest quality). All three models are bundled in the app and run via LiteRT, so there's nothing to download. Photos are auto-rotated (EXIF-aware) before upscaling.
+
 ### Voice Input
-On-device speech-to-text using [whisper.cpp](https://github.com/ggerganov/whisper.cpp). Tap to record, tap to transcribe. Copy or clear results. Supports Whisper Tiny through Small models in multiple languages. Audio never leaves the device.
+On-device speech-to-text using [whisper.cpp](https://github.com/ggerganov/whisper.cpp) or **SenseVoice** ([Sherpa-ONNX](https://github.com/k2-fsa/sherpa-onnx)). Tap to record, tap to transcribe. Copy or clear results. Whisper supports Tiny through Large-v3 in multiple languages; **SenseVoice** adds fast multilingual transcription (Chinese / English / Japanese / Korean / Cantonese, ~5× faster than Whisper) with a live preview, a multi-message log, and optional emotion/event tags. Audio never leaves the device.
+
+### Text-to-Speech
+On-device speech synthesis straight from text. **Supertonic** offers lightweight multilingual TTS (English / Korean / Spanish / Portuguese / French) with multiple built-in voices and adjustable speed, alongside Piper and Kokoro voices. Fully offline — text never leaves the device.
 
 ### Free Talk — Real-Time Voice Conversation
 
@@ -304,7 +354,7 @@ All conversations are stored in a SQLCipher-encrypted Room database. History per
 ### NPU / TPU Acceleration
 All Qualcomm Hexagon NPU variants (Snapdragon 8 Gen 2 / 8 Gen 3 / 8 Elite / newer), Google Tensor TPU (Pixel 8–10), and MediaTek NPU are bundled in a single APK — no separate builds per device. Select **NPU/TPU** in the model's accelerator dropdown; Box auto-detects the chip and loads the right runtime.
 
-> **Note:** NPU acceleration currently falls back to GPU/CPU for most models. The NPU path (via AICore on Tensor, QNN on Snapdragon) requires model-side AUX metadata that current litert-community models don't yet include. GPU is the recommended accelerator and performs excellently on all supported chips.
+> **Note:** As of v2.0.0, dedicated NPU/TPU model builds run on the neural engine — **Gemma 4 E2B / Gemma 3 1B on the Google Tensor G5 (Pixel 10)** and **Gemma 3n E2B / Qwen3 0.6B on MediaTek Dimensity**. These are SoC-specific compiled `.litertlm` files that download automatically on matching hardware. Generic litert-community GPU models still run on GPU (they don't ship the per-SoC NPU build). GPU remains an excellent default on all supported chips.
 
 Supported hardware:
 - **Snapdragon 888 / 8 Gen 1** (Hexagon V69)
@@ -313,7 +363,7 @@ Supported hardware:
 - **Snapdragon 8 Elite** (SM8750, Hexagon V79)
 - **Snapdragon next-gen** (SM8850, Hexagon V81)
 - **Google Tensor G3 / G4 / G5** (Pixel 8 / 9 / 10)
-- **MediaTek Dimensity** (MT6989, MT6991)
+- **MediaTek Dimensity** (MT6989, MT6991, MT6993)
 
 ### GGUF Model Import
 Import any GGUF model file from local storage. At import time set the display name and choose the accelerator (CPU, GPU via OpenCL/Vulkan, or NPU via QNN delegate). Stable Diffusion GGUF models can also be imported for image generation.
@@ -334,7 +384,7 @@ A toggle in Settings forces the app into a fully airgapped state — all downloa
 ### Build from source
 
 ```bash
-git clone --recurse-submodules https://github.com/Vasili-Sk/AI-Box-plus
+git clone --recurse-submodules https://github.com/jegly/box
 cd box/Android
 ./gradlew :app:assembleDebug
 ```
@@ -374,12 +424,13 @@ Open `Android/` in Android Studio and run on a physical device for best performa
 - **Hilt** — dependency injection
 - **Room + SQLCipher** — encrypted persistence
 - **LiteRT-LM** — LiteRT inference runtime for LLMs (GPU + NPU/TPU)
+- **LiteRT (CompiledModel)** — runs the bundled Qualcomm `.tflite` super-resolution models (image upscaling)
 - **Qualcomm QNN / QAIRT 2.41** — Hexagon NPU runtime (V69–V81, bundled)
 - **LiteRT NPU dispatch** — auto-selects Qualcomm / Google Tensor / MediaTek at runtime
 - **llama.cpp** — GGUF LLM inference (git submodule)
 - **stable-diffusion.cpp** — GGUF image generation (git submodule)
 - **whisper.cpp** — on-device speech-to-text (git submodule)
-- **Sherpa-ONNX (k2-fsa)** — Piper TTS engine for on-device voice synthesis (custom-rom-support branch)
+- **Sherpa-ONNX (k2-fsa)** — on-device speech engine: SenseVoice STT and Supertonic / Piper / Kokoro TTS (both branches)
 
 
 ---
@@ -400,7 +451,11 @@ Box would not exist without the work of the teams and individuals behind the pro
 
 **[Sherpa-ONNX / k2-fsa](https://github.com/k2-fsa/sherpa-onnx)** — the k2-fsa team for Sherpa-ONNX, which powers the Piper TTS engine (Amy and other voices) in the custom-rom-support branch.
 
-**[off-grid-mobile-ai](https://github.com/alichherawalla/off-grid-mobile-ai)** — Mohammed Ali Chherawalla for the on-device Stable Diffusion Android implementation, which was instrumental in getting efficient on-device image generation working and influenced parts of Box’s pipeline.
+**[SenseVoice (FunAudioLLM)](https://github.com/FunAudioLLM/SenseVoice)** — the FunAudioLLM / Alibaba Speech Lab team for the SenseVoice multilingual speech-to-text models that power Box's fast STT feature (run on-device via Sherpa-ONNX).
+
+**[Supertonic](https://github.com/supertone-inc/supertonic)** — Supertone Inc. for the Supertonic on-device text-to-speech models that power Box's multilingual TTS feature (run on-device via Sherpa-ONNX).
+
+**[off-grid-mobile-ai](https://github.com/alichherawalla/off-grid-mobile-ai)** — Mohammed Ali Chherawalla for the on-device Stable Diffusion Android implementation, which was instrumental in getting efficient on-device image generation working and influenced parts of Box’s ImgGen pipeline.
 
  **[PocketSage](https://github.com/umerarif11/pocketsage)** — Umer Arif for the clean, fully offline RAG-on-Android
   reference implementation that the Document Q&A feature in Box is based on.
@@ -415,14 +470,14 @@ Thank you to everyone who has opened issues, tested builds, or contributed to an
 ---
 
 ## License
-<img src="images/Apache_Software_Foundation.png" alt="Apache Software Foundation Logo" width="120">
+<img src="https://github.com/jegly/Box/blob/main/images/Apache_Software_Foundation.png?raw=true" alt="Apache Software Foundation Logo" width="120">
 Licensed under the Apache License, Version 2.0
 
 ---
 
 ## Links
 
-- [Box repository](https://github.com/Vasili-Sk/AI-Box-plus)
+- [Box repository](https://github.com/jegly/box)
 - [Upstream: google-ai-edge/gallery](https://github.com/google-ai-edge/gallery)
 - [llama.cpp](https://github.com/ggml-org/llama.cpp)
 - [stable-diffusion.cpp](https://github.com/leejet/stable-diffusion.cpp)
@@ -438,13 +493,23 @@ Licensed under the Apache License, Version 2.0
 
   | Variant | SHA-256 |
   |---|---|
-  | main | `d6406193d0857cc60d99d169738058cb99c40ed84bf4adc82733480bc5ad0f49` |
-  | custom-rom-support | `160eb2ed07997412ecfb29416fa79d2d6b708ef093544ac54526071e6509c04f` |
+  | main | `sha256:3f6362e71517059d0b827b5dbd2e860ea7df95fd852f9ce6ea5a01b600fb4184` |
+  | custom-rom-support | `sha256:8aa8113dd45bb1230bc1b7cb682a6d737d95e3b7b8afddb1bff7d544c860b0cc` |
+
+  ### Signing certificate
+
+  Both variants are signed with the same key. Use this fingerprint with [Obtainium AppVerifier](https://github.com/ImranR98/Obtainium) to verify the APK was signed by the correct key before installing:
+
+  **Certificate SHA-256:** `8346b1a70d09ff5c9f7d7febc874cf694b6e267032a4eb38e261d538bce7b09c`
+
+  ```bash
+  apksigner verify --print-certs Box_*.apk | grep SHA-256
+  ```
 
 ---
 
 <p align="center">
-  <img src="images/box-linux-catppuccin-latte.svg" alt="Box for Linux" width="90%" />
+  <img src="https://raw.githubusercontent.com/jegly/Box/main/images/box-linux-catppuccin-latte.svg" alt="Box for Linux" width="90%" />
 </p>
 
 [![Python](https://img.shields.io/badge/Python-3.12%2B-BD93F9.svg?logo=python&logoColor=white)](https://www.python.org)
@@ -607,7 +672,7 @@ agent mode, and memory are each opt-in.
 
 ## Install
 
-Download the latest `.deb` from the [Releases](https://github.com/Vasili-Sk/AI-Box-plus/releases) page:
+Download the latest `.deb` from the [Releases](https://github.com/jegly/Box/releases) page:
 
 ```bash
 sudo apt install ./box_<version>_amd64.deb
