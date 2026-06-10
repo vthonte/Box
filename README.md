@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/jegly/Box/main/images/b01.svg" alt="Box Header" width="81%" />
+  <img src="https://raw.githubusercontent.com/jegly/Box/main/images/b01.svg" alt="Box Header" width="83%" />
 </p>
 
 [![Fork](https://img.shields.io/badge/Fork-Google%20AI%20Edge-6272A4.svg)](https://github.com/google-ai-edge/gallery)
@@ -33,7 +33,7 @@
 If this project helped you, please ⭐️ star it to help others find it. 
 ##  Download
 
-[![Download Box v2.0.1 APK](https://img.shields.io/badge/Download-Latest_APK-A6E3A1?style=for-the-badge&logo=android&logoColor=1E1E2E)](https://github.com/jegly/Box/releases/latest)
+[![Download Box v2.0.2 APK](https://img.shields.io/badge/Download-Latest_APK-A6E3A1?style=for-the-badge&logo=android&logoColor=1E1E2E)](https://github.com/jegly/Box/releases/latest)
 
 > **Note:** If you're using a custom ROM (LineageOS, GrapheneOS, CalyxOS), download the `custom-rom-support` APK from the [latest release](https://github.com/jegly/Box/releases/latest) instead.
 
@@ -86,12 +86,16 @@ Box is an independent community fork of [Google AI Edge Gallery](https://github.
 <details>
 <summary>
 
-## Changelog v1.0.7 – v2.0.1
+## Changelog v1.0.7 – v2.0.2
 
 </summary>
 
 | Version | Feature | Details |
 |---|---|---|
+| v2.0.2 | **New model tier — Gemma 3 270M** | Brand-new ultra-lightweight model (~460–555 MB) — fast and low-RAM, ideal for quick tasks on modest devices. Ships dedicated NPU builds for Snapdragon (SM8550 / 8650 / 8750 / 8750-AB / 8850) and MediaTek Dimensity (MT6991 / MT6993). |
+| v2.0.2 | **New models — Gemma 3 1B-IT with broad NPU coverage** | Gemma 3 1B now ships dedicated on-device NPU builds across Snapdragon (SM8550 → SM8850, incl. the Samsung SM8750-AB) and MediaTek Dimensity (MT6989 / 6991 / 6993), plus a universal GPU/CPU build. Each device automatically downloads the build that matches its chip. |
+| v2.0.2 | **New models — Gemma 3n E2B & E4B (multimodal)** | Text, image and audio input, up to 32K context, with Gemma 3n's selective-parameter architecture. Run on GPU/CPU on every device; NPU-accelerated on MediaTek (MT6993). |
+| v2.0.2 | **Samsung Galaxy S26 Ultra (SM8850) NPU models** | Added SM8850 ("Snapdragon 8 Elite Gen 5") allowlist keys across the new Gemma 3 1B and 270M entries, so dedicated NPU models now appear and run on the S26 Ultra. |
 | v2.0.1 | **Fix — Snapdragon 8 Elite NPU crash (SM8750 / SM8750-AB)** | The audio sub-graph was incorrectly routed to the NPU on all SM8750 devices, causing an instant hard crash (SIGABRT) when loading the Snapdragon NPU model — no error popup, just an immediate exit. Audio always uses CPU regardless of the primary backend, matching upstream behaviour. Fixes Red Magic NX799J, iQOO 13, and any other SM8750 or SM8750-AB device. |
 | v2.0.1 | **Fix — Samsung Galaxy S25 / S26 Ultra NPU models not listed** | Samsung's "Snapdragon 8 Elite for Galaxy" variant reports `SM8750-AB` as its SoC identifier, not `SM8750`. The model allowlist only matched `sm8750`, so dedicated NPU models were invisible to all S25 and S26 Ultra users. |
 | v2.0.1 | **New model — Gemma 4 E2B (Qualcomm QCS8275 / Dragonwing IQ8)** | Added an NPU model entry for the Qualcomm QCS8275 SoC. Appears automatically on matching hardware. |
@@ -346,7 +350,7 @@ All conversations are stored in a SQLCipher-encrypted Room database. History per
 ### NPU / TPU Acceleration
 All Qualcomm Hexagon NPU variants (Snapdragon 8 Gen 2 / 8 Gen 3 / 8 Elite / newer), Google Tensor TPU (Pixel 8–10), and MediaTek NPU are bundled in a single APK — no separate builds per device. Select **NPU/TPU** in the model's accelerator dropdown; Box auto-detects the chip and loads the right runtime.
 
-> **Note:** As of v2.0.0, dedicated NPU/TPU model builds run on the neural engine — **Gemma 4 E2B / Gemma 3 1B on the Google Tensor G5 (Pixel 10)** and **Gemma 3n E2B / Qwen3 0.6B on MediaTek Dimensity**. These are SoC-specific compiled `.litertlm` files that download automatically on matching hardware. Generic litert-community GPU models still run on GPU (they don't ship the per-SoC NPU build). GPU remains an excellent default on all supported chips.
+> **Note:** As of v2.0.2, dedicated NPU/TPU model builds run on the neural engine — **Gemma 4 E2B / Gemma 3 1B on the Google Tensor G5 (Pixel 10)**; **Gemma 3 1B & Gemma 3 270M on Snapdragon (SM8550 → SM8850) and MediaTek Dimensity (MT6989–MT6993)**; and **Gemma 3n E2B / Qwen3 0.6B on MediaTek Dimensity**. These are SoC-specific compiled `.litertlm` files that download automatically on matching hardware. The universal **Gemma 3n E2B / E4B** builds (multimodal) run on GPU/CPU everywhere — NPU acceleration for 3n is currently MediaTek-only. Generic litert-community GPU models still run on GPU (they don't ship the per-SoC NPU build). GPU remains an excellent default on all supported chips.
 
 Supported hardware:
 - **Snapdragon 888 / 8 Gen 1** (Hexagon V69)
@@ -485,8 +489,8 @@ Licensed under the Apache License, Version 2.0
 
   | Variant | SHA-256 |
   |---|---|
-  | main | `sha256:3f6362e71517059d0b827b5dbd2e860ea7df95fd852f9ce6ea5a01b600fb4184` |
-  | custom-rom-support | `sha256:8aa8113dd45bb1230bc1b7cb682a6d737d95e3b7b8afddb1bff7d544c860b0cc` |
+  | main | `sha256:f09dbb1321b00d7f75c388fc44dd5518aa48a3c00b251129dfad5b07d1100e0e` |
+  | custom-rom-support | `sha256:68d59c35f3021f809167a867f10c027cdee8d4ec3933347029b174c12eeb2b34` |
 
   ### Signing certificate
 
